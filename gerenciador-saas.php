@@ -69,4 +69,3 @@ function gerenciamento_saas_ensure_login_page()
         ]);
     }
 }
-//http://localhost:8080/?saas_dashboard=1
