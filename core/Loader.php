@@ -21,8 +21,10 @@ class Loader
     private function load_dependencies()
     {
         $files = [
+            GERENCIADOR_SAAS_PATH . 'models/IdiomaModel.php',
             GERENCIADOR_SAAS_PATH . 'controllers/DashboardController.php',
             GERENCIADOR_SAAS_PATH . 'controllers/Login.php',
+            GERENCIADOR_SAAS_PATH . 'controllers/IdiomasController.php',
         ];
 
         foreach ($files as $file) {
@@ -44,6 +46,14 @@ class Loader
         } else {
             if (function_exists('error_log')) {
                 error_log('[Gerenciador Saas] DashboardController class not found.');
+            }
+        }
+
+        if (class_exists('IdiomasController')) {
+            new IdiomasController();
+        } else {
+            if (function_exists('error_log')) {
+                error_log('[Gerenciador Saas] IdiomasController class not found.');
             }
         }
     }
