@@ -111,6 +111,23 @@ class IdiomasController {
         return '#ef4444'; // vermelho
     }
 
+    private function obter_nivel_texto($nivel) {
+        $nivel = intval($nivel);
+        if ($nivel === 100) {
+            return 'Nativo';
+        }
+
+        if ($nivel >= 80) {
+            return 'Fluente';
+        }
+
+        if ($nivel >= 50) {
+            return 'Intermediário';
+        }
+
+        return 'Básico';
+    }
+
     public function render_idiomas_curriculo() {
         // Render public curriculum languages (visible to site visitors)
         $idiomas = $this->model->buscar_todos();

@@ -72,11 +72,10 @@ class DashboardController
                 <a href="?secao=home" style="color:#fff; display:block; margin-bottom:10px;">📄 Home</a>
                 <a href="?secao=sobre" style="color:#fff; display:block; margin-bottom:10px;">📄 Sobre</a>
                 <a href="?secao=servicos" style="color:#fff; display:block; margin-bottom:10px;">📄 Serviços</a>
-            
-                
-                <hr>
-               <!--Adiciona o link para form-idiomas.php-->
+                <!--Adiciona o link para form-idiomas.php-->
                 <a href="?secao=idiomas" style="color:#fff; display:block; margin-bottom:10px;">🌐 Idiomas</a >
+                 <hr>
+              
 
                 
 
