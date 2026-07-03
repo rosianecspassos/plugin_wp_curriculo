@@ -14,7 +14,7 @@ define('GERENCIADOR_SAAS_PATH', plugin_dir_path(__FILE__));
 define('GERENCIADOR_SAAS_URL', plugin_dir_url(__FILE__));
 
 require_once GERENCIADOR_SAAS_PATH . 'core/Loader.php';
-require_once GERENCIADOR_SAAS_PATH . 'models/IdiomaModel.php';
+//require_once GERENCIADOR_SAAS_PATH . 'models/IdiomaModel.php';
 
 $saas_plugin = new Loader();
 $saas_plugin->run();
