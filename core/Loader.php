@@ -25,6 +25,9 @@ class Loader
             GERENCIADOR_SAAS_PATH . 'controllers/DashboardController.php',
             GERENCIADOR_SAAS_PATH . 'controllers/Login.php',
             GERENCIADOR_SAAS_PATH . 'controllers/IdiomasController.php',
+            GERENCIADOR_SAAS_PATH . 'controllers/CompetenciasController.php',
+            GERENCIADOR_SAAS_PATH . 'models/ExperienciaModel.php',
+            GERENCIADOR_SAAS_PATH . 'controllers/ExperienciasController.php',
         ];
 
         foreach ($files as $file) {
@@ -54,6 +57,14 @@ class Loader
         } else {
             if (function_exists('error_log')) {
                 error_log('[Gerenciador Saas] IdiomasController class not found.');
+            }
+        }
+
+        if (class_exists('ExperienciasController')) {
+            new ExperienciasController();
+        } else {
+            if (function_exists('error_log')) {
+                error_log('[Gerenciador Saas] ExperienciasController class not found.');
             }
         }
     }
