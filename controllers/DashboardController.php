@@ -74,6 +74,8 @@ class DashboardController
                 <a href="?secao=servicos" style="color:#fff; display:block; margin-bottom:10px;">📄 Serviços</a>
                 <!--Adiciona o link para form-idiomas.php-->
                 <a href="?secao=idiomas" style="color:#fff; display:block; margin-bottom:10px;">🌐 Idiomas</a >
+                <a href="?secao=competencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Competências</a>
+                <a href="?secao=experiencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Experiências</a>
                  <hr>
               
 
@@ -94,6 +96,8 @@ class DashboardController
                     echo '<h2>Olá, ' . esc_html($user->display_name) . '!</h2><p>Selecione uma página ao lado para editar o conteúdo diretamente por aqui.</p>';
                 } elseif ($secao === 'idiomas') {
                     echo do_shortcode('[sistema_idiomas]');
+                } elseif ($secao === 'experiencias') {
+                    echo do_shortcode('[sistema_experiencias]');
                 } else {
                     $this->generate_dynamic_editor($secao);
                 }
