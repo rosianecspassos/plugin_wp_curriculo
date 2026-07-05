@@ -79,8 +79,16 @@ function gerenciador_saas_activate() {
 }
 
 function gerenciador_saas_create_schema() {
-    $model = new IdiomaModel();
-    $model->criar_tabela();
+    $models = [
+        new IdiomaModel(),
+        new FormacaoModel(),
+    ];
+
+    foreach ($models as $model) {
+        if (method_exists($model, 'criar_tabela')) {
+            $model->criar_tabela();
+        }
+    }
 }
 
 register_deactivation_hook(__FILE__, 'gerenciador_saas_deactivate');
@@ -104,6 +112,12 @@ function gerenciamento_saas_ensure_login_page()
             'post_type'    => 'page',
         ]);
     }
+}
+
+add_action('init', 'gerenciador_saas_init_schema');
+function gerenciador_saas_init_schema()
+{
+    gerenciador_saas_create_schema();
 }
 //http://localhost:8080/?saas_dashboard=1
 //[sistema_idiomas_progress]
