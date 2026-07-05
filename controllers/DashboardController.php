@@ -70,19 +70,14 @@ class DashboardController
                 <h4 style="margin-top:0;">Menu</h4>
                 <a href="?secao=dashboard" style="color:#fff; display:block; margin-bottom:10px;">🏠 Dashboard</a>
                 <a href="?secao=home" style="color:#fff; display:block; margin-bottom:10px;">📄 Home</a>
-                <a href="?secao=sobre" style="color:#fff; display:block; margin-bottom:10px;">📄 Sobre</a>
-                <a href="?secao=servicos" style="color:#fff; display:block; margin-bottom:10px;">📄 Serviços</a>
+
                 <!--Adiciona o link para form-idiomas.php-->
                 <a href="?secao=idiomas" style="color:#fff; display:block; margin-bottom:10px;">🌐 Idiomas</a >
                 <a href="?secao=competencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Competências</a>
                 <a href="?secao=experiencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Experiências</a>
+                <a href="?secao=formacoes" style="color:#fff; display:block; margin-bottom:10px;">🎓 Formações</a > 
                  <hr>
-              
-
-                
-
-             
-  
+            
                 <a href="<?php echo esc_url(wp_logout_url(home_url('/login'))); ?>" style="color:#ff7675;">Sair</a>
             </div>
 
@@ -98,6 +93,8 @@ class DashboardController
                     echo do_shortcode('[sistema_idiomas]');
                 } elseif ($secao === 'experiencias') {
                     echo do_shortcode('[sistema_experiencias]');
+                } elseif ($secao === 'formacoes') {
+                    echo do_shortcode('[sistema_formacoes]');
                 } else {
                     $this->generate_dynamic_editor($secao);
                 }
