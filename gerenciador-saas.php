@@ -19,9 +19,11 @@ require_once GERENCIADOR_SAAS_PATH . 'core/Loader.php';
 $saas_plugin = new Loader();
 $saas_plugin->run();
 
-// Garante páginas necessárias e inicializa página de idiomas
+// Garante páginas necessárias e inicializa páginas
 gerenciamento_saas_ensure_login_page();
 gerenciamento_saas_ensure_idiomas_page();
+gerenciamento_saas_ensure_competencias_page();
+gerenciamento_saas_ensure_cursos_page();
 
 function gerenciamento_saas_ensure_idiomas_page()
 {
@@ -60,6 +62,7 @@ function gerenciador_saas_activate() {
     $required_pages = [
         'sistema-painel' => '[sistema_painel]',
         'login' => '[login_usuario]',
+        'competencias' => '[sistema_competencias]',
     ];
 
     foreach ($required_pages as $slug => $content) {
@@ -82,11 +85,65 @@ function gerenciador_saas_create_schema() {
     $models = [
         new IdiomaModel(),
         new FormacaoModel(),
+        new CompetenciaModel(),
+        new CursoModel(),
     ];
 
     foreach ($models as $model) {
         if (method_exists($model, 'criar_tabela')) {
             $model->criar_tabela();
+        }
+    }
+}
+
+function gerenciamento_saas_ensure_competencias_page()
+{
+    if (!function_exists('get_page_by_path')) {
+        return;
+    }
+
+    $slug = 'competencias';
+    if (!get_page_by_path($slug)) {
+        wp_insert_post([
+            'post_title'   => 'Competências',
+            'post_name'    => $slug,
+            'post_content' => '[sistema_competencias]',
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+        ]);
+    } else {
+        $page = get_page_by_path($slug);
+        if ($page && strpos($page->post_content, '[sistema_competencias]') === false) {
+            wp_update_post([
+                'ID'           => $page->ID,
+                'post_content' => '[sistema_competencias]',
+            ]);
+        }
+    }
+}
+
+function gerenciamento_saas_ensure_cursos_page()
+{
+    if (!function_exists('get_page_by_path')) {
+        return;
+    }
+
+    $slug = 'cursos';
+    if (!get_page_by_path($slug)) {
+        wp_insert_post([
+            'post_title'   => 'Cursos',
+            'post_name'    => $slug,
+            'post_content' => '[sistema_cursos]',
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+        ]);
+    } else {
+        $page = get_page_by_path($slug);
+        if ($page && strpos($page->post_content, '[sistema_cursos]') === false) {
+            wp_update_post([
+                'ID'           => $page->ID,
+                'post_content' => '[sistema_cursos]',
+            ]);
         }
     }
 }
