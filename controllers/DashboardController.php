@@ -74,6 +74,7 @@ class DashboardController
                 <!--Adiciona o link para form-idiomas.php-->
                 <a href="?secao=idiomas" style="color:#fff; display:block; margin-bottom:10px;">🌐 Idiomas</a >
                 <a href="?secao=competencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Competências</a>
+                <a href="?secao=cursos" style="color:#fff; display:block; margin-bottom:10px;">📚 Cursos</a>
                 <a href="?secao=experiencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Experiências</a>
                 <a href="?secao=formacoes" style="color:#fff; display:block; margin-bottom:10px;">🎓 Formações</a > 
                  <hr>
@@ -88,9 +89,13 @@ class DashboardController
                 }
 
                 if ($secao === 'dashboard') {
-                    echo '<h2>Olá, ' . esc_html($user->display_name) . '!</h2><p>Selecione uma página ao lado para editar o conteúdo diretamente por aqui.</p>';
+                    echo '<h2>Olá, ' . esc_html($user->display_name) . '!</h2><p>Selecione uma página ao lado para editar o conteúdo diretamente por aqui.</p><p><a href="?secao=cursos" style="color:#2563eb;">Ir para o formulário de cursos</a></p>';
                 } elseif ($secao === 'idiomas') {
                     echo do_shortcode('[sistema_idiomas]');
+                } elseif ($secao === 'competencias') {
+                    echo do_shortcode('[sistema_competencias]');
+                } elseif ($secao === 'cursos') {
+                    echo do_shortcode('[sistema_cursos]');
                 } elseif ($secao === 'experiencias') {
                     echo do_shortcode('[sistema_experiencias]');
                 } elseif ($secao === 'formacoes') {

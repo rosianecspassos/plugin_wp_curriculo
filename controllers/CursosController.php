@@ -4,21 +4,21 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class CompetenciasController
+class CursosController
 {
     private $model;
 
     public function __construct()
     {
-        $this->model = new CompetenciaModel();
+        $this->model = new CursoModel();
         add_action('init', [$this, 'init_hooks']);
     }
 
     public function init_hooks()
     {
         $this->process_post_requests();
-        add_shortcode('sistema_competencias', [$this, 'render_panel']);
-        add_shortcode('curriculo_competencias', [$this, 'render_curriculo_competencias']);
+        add_shortcode('sistema_cursos', [$this, 'render_panel']);
+        add_shortcode('curriculo_cursos', [$this, 'render_curriculo_cursos']);
     }
 
     public function process_post_requests()
@@ -27,11 +27,11 @@ class CompetenciasController
             return;
         }
 
-        if (!isset($_POST['acao_competencias']) || !isset($_POST['_wpnonce'])) {
+        if (!isset($_POST['acao_cursos']) || !isset($_POST['_wpnonce'])) {
             return;
         }
 
-        if (!wp_verify_nonce($_POST['_wpnonce'], 'salvar_competencia_acao')) {
+        if (!wp_verify_nonce($_POST['_wpnonce'], 'salvar_curso_acao')) {
             wp_die('Erro de segurança. Tente novamente.');
         }
 
@@ -39,19 +39,19 @@ class CompetenciasController
             return;
         }
 
-        $action = sanitize_text_field($_POST['acao_competencias']);
+        $action = sanitize_text_field($_POST['acao_cursos']);
         $icon = sanitize_text_field($_POST['icon'] ?? '');
-        $titulo = sanitize_text_field($_POST['titulo'] ?? '');
-        $descricao = wp_kses_post(wp_unslash($_POST['descricao'] ?? ''));
+        $curso = sanitize_text_field($_POST['curso'] ?? '');
+        $instituicao = sanitize_text_field($_POST['instituicao'] ?? '');
 
-        if ($action === 'salvar_competencia' && isset($_POST['competencia_id'])) {
-            $competencia_id = intval($_POST['competencia_id']);
-            $this->model->atualizar($competencia_id, $icon, $titulo, $descricao);
+        if ($action === 'salvar_curso' && isset($_POST['curso_id'])) {
+            $curso_id = intval($_POST['curso_id']);
+            $this->model->atualizar($curso_id, $icon, $curso, $instituicao);
             $this->redirect_success();
         }
 
-        if ($action === 'adicionar_competencia') {
-            $this->model->cadastrar(get_current_user_id(), $icon, $titulo, $descricao);
+        if ($action === 'adicionar_curso') {
+            $this->model->cadastrar(get_current_user_id(), $icon, $curso, $instituicao);
             $this->redirect_success();
         }
     }
@@ -59,7 +59,7 @@ class CompetenciasController
     private function redirect_success()
     {
         $redirect_url = add_query_arg([
-            'secao'  => 'competencias',
+            'secao'  => 'cursos',
             'status' => 'sucesso',
         ], wp_unslash($_SERVER['REQUEST_URI']));
 
@@ -67,7 +67,7 @@ class CompetenciasController
         exit;
     }
 
-    private function get_competencias()
+    private function get_cursos()
     {
         return $this->model->buscar_por_usuario(get_current_user_id());
     }
@@ -78,20 +78,20 @@ class CompetenciasController
             return '<p>Por favor, faça <a href="' . esc_url(home_url('/login')) . '">login</a>.</p>';
         }
 
-        $competencias = $this->get_competencias();
+        $cursos = $this->get_cursos();
         $status = isset($_GET['status']) && $_GET['status'] === 'sucesso';
 
         ob_start();
-        include plugin_dir_path(__FILE__) . '../views/painel-competencias.php';
+        include plugin_dir_path(__FILE__) . '../views/painel-cursos.php';
         return ob_get_clean();
     }
 
-    public function render_curriculo_competencias()
+    public function render_curriculo_cursos()
     {
-        $competencias = $this->model->buscar_todos();
+        $cursos = $this->model->buscar_todos();
 
         ob_start();
-        include plugin_dir_path(__FILE__) . '../views/curriculo-competencias.php';
+        include plugin_dir_path(__FILE__) . '../views/curriculo-cursos.php';
         return ob_get_clean();
     }
 }
