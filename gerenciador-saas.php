@@ -24,6 +24,7 @@ gerenciamento_saas_ensure_login_page();
 gerenciamento_saas_ensure_idiomas_page();
 gerenciamento_saas_ensure_competencias_page();
 gerenciamento_saas_ensure_cursos_page();
+gerenciamento_saas_ensure_contato_page();
 
 function gerenciamento_saas_ensure_idiomas_page()
 {
@@ -63,6 +64,7 @@ function gerenciador_saas_activate() {
         'sistema-painel' => '[sistema_painel]',
         'login' => '[login_usuario]',
         'competencias' => '[sistema_competencias]',
+        'contato' => '[formulario_contato]',
     ];
 
     foreach ($required_pages as $slug => $content) {
@@ -143,6 +145,32 @@ function gerenciamento_saas_ensure_cursos_page()
             wp_update_post([
                 'ID'           => $page->ID,
                 'post_content' => '[sistema_cursos]',
+            ]);
+        }
+    }
+}
+
+function gerenciamento_saas_ensure_contato_page()
+{
+    if (!function_exists('get_page_by_path')) {
+        return;
+    }
+
+    $slug = 'contato';
+    if (!get_page_by_path($slug)) {
+        wp_insert_post([
+            'post_title'   => 'Contato',
+            'post_name'    => $slug,
+            'post_content' => '[formulario_contato]',
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+        ]);
+    } else {
+        $page = get_page_by_path($slug);
+        if ($page && strpos($page->post_content, '[formulario_contato]') === false) {
+            wp_update_post([
+                'ID'           => $page->ID,
+                'post_content' => '[formulario_contato]',
             ]);
         }
     }
