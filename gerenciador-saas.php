@@ -25,6 +25,7 @@ gerenciamento_saas_ensure_idiomas_page();
 gerenciamento_saas_ensure_competencias_page();
 gerenciamento_saas_ensure_cursos_page();
 gerenciamento_saas_ensure_contato_page();
+gerenciamento_saas_ensure_portifolio_page();
 
 function gerenciamento_saas_ensure_idiomas_page()
 {
@@ -65,6 +66,7 @@ function gerenciador_saas_activate() {
         'login' => '[login_usuario]',
         'competencias' => '[sistema_competencias]',
         'contato' => '[formulario_contato]',
+        'portifolio' => '[sistema_portifolio]',
     ];
 
     foreach ($required_pages as $slug => $content) {
@@ -171,6 +173,33 @@ function gerenciamento_saas_ensure_contato_page()
             wp_update_post([
                 'ID'           => $page->ID,
                 'post_content' => '[formulario_contato]',
+            ]);
+        }
+    }
+}
+
+function gerenciamento_saas_ensure_portifolio_page()
+{
+    if (!function_exists('get_page_by_path')) {
+        return;
+    }
+
+    $slug = 'portifolio';
+    $shortcode = '[sistema_portifolio]';
+    if (!get_page_by_path($slug)) {
+        wp_insert_post([
+            'post_title'   => 'Portfólio',
+            'post_name'    => $slug,
+            'post_content' => $shortcode,
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+        ]);
+    } else {
+        $page = get_page_by_path($slug);
+        if ($page && strpos($page->post_content, $shortcode) === false) {
+            wp_update_post([
+                'ID' => $page->ID,
+                'post_content' => $shortcode
             ]);
         }
     }
