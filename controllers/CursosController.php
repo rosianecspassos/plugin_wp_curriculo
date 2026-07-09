@@ -50,6 +50,12 @@ class CursosController
             $this->redirect_success();
         }
 
+        if ($action === 'excluir_curso' && isset($_POST['curso_id'])) {
+            $curso_id = intval($_POST['curso_id']);
+            $this->model->excluir($curso_id);
+            $this->redirect_success();
+        }
+
         if ($action === 'adicionar_curso') {
             $this->model->cadastrar(get_current_user_id(), $icon, $curso, $instituicao);
             $this->redirect_success();

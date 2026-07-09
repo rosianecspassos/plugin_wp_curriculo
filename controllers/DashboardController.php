@@ -77,6 +77,8 @@ class DashboardController
                 <a href="?secao=cursos" style="color:#fff; display:block; margin-bottom:10px;">📚 Cursos</a>
                 <a href="?secao=experiencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Experiências</a>
                 <a href="?secao=formacoes" style="color:#fff; display:block; margin-bottom:10px;">🎓 Formações</a > 
+                <a href="?secao=portifolio" style="color:#fff; display:block; margin-bottom:10px;">🖼️ Portfólio</a > 
+                
                  <hr>
             
                 <a href="<?php echo esc_url(wp_logout_url(home_url('/login'))); ?>" style="color:#ff7675;">Sair</a>
@@ -100,6 +102,8 @@ class DashboardController
                     echo do_shortcode('[sistema_experiencias]');
                 } elseif ($secao === 'formacoes') {
                     echo do_shortcode('[sistema_formacoes]');
+                } elseif ($secao === 'portifolio') {
+                    echo do_shortcode('[sistema_portifolio]');
                 } else {
                     $this->generate_dynamic_editor($secao);
                 }

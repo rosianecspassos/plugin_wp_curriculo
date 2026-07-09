@@ -50,6 +50,12 @@ class FormacaoController {
             $this->redirect_success();
         }
 
+        if ($action === 'excluir_formacao' && isset($_POST['formacao_id'])) {
+            $formacao_id = intval($_POST['formacao_id']);
+            $this->model->excluir($formacao_id);
+            $this->redirect_success();
+        }
+
         if ($action === 'adicionar_formacao') {
             $this->model->cadastrar(get_current_user_id(), $curso, $instituicao, $grau, $titulo, $status, $ano_conclusao);
             $this->redirect_success();

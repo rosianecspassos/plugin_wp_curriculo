@@ -16,7 +16,6 @@ class IdiomasController {
         $this->process_post_requests();
         add_shortcode('sistema_idiomas', [$this, 'render_panel']);
         add_shortcode('sistema_idiomas_progress', [$this, 'render_progress_barras']);
-        add_filter('the_content', [$this, 'inject_curriculo_on_homepage'], 20);
         add_shortcode('curriculo_idiomas', [$this, 'render_idiomas_curriculo']);
     }
 
@@ -52,6 +51,12 @@ class IdiomasController {
         if ($action === 'salvar_idioma' && isset($_POST['idioma_id'])) {
             $idioma_id = intval($_POST['idioma_id']);
             $this->model->atualizar($idioma_id, $nome, $porcentagem);
+            $this->redirect_success();
+        }
+
+        if ($action === 'excluir_idioma' && isset($_POST['idioma_id'])) {
+            $idioma_id = intval($_POST['idioma_id']);
+            $this->model->excluir($idioma_id);
             $this->redirect_success();
         }
 

@@ -45,6 +45,12 @@ class ExperienciasController {
             $this->redirect_success();
         }
 
+        if ($action === 'excluir_experiencia' && isset($_POST['experiencia_id'])) {
+            $experiencia_id = intval($_POST['experiencia_id']);
+            $this->model->excluir($experiencia_id);
+            $this->redirect_success();
+        }
+
         if ($action === 'adicionar_experiencia') {
             $this->model->cadastrar(get_current_user_id(), $cargo);
             $this->redirect_success();

@@ -50,6 +50,12 @@ class CompetenciasController
             $this->redirect_success();
         }
 
+        if ($action === 'excluir_competencia' && isset($_POST['competencia_id'])) {
+            $competencia_id = intval($_POST['competencia_id']);
+            $this->model->excluir($competencia_id);
+            $this->redirect_success();
+        }
+
         if ($action === 'adicionar_competencia') {
             $this->model->cadastrar(get_current_user_id(), $icon, $titulo, $descricao);
             $this->redirect_success();
