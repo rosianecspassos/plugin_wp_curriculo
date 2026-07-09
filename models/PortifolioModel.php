@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ExperienciaModel 
+class PortifolioModel
 {
     private $table;
     private $wpdb;
@@ -12,9 +12,8 @@ class ExperienciaModel
     public function __construct()
     {
         global $wpdb;
-
         $this->wpdb = $wpdb;
-        $this->table = $wpdb->prefix . 'curriculo_experiencias';
+        $this->table = $wpdb->prefix . 'curriculo_portifolio';
     }
 
     public function criar_tabela()
@@ -26,39 +25,48 @@ class ExperienciaModel
         $sql = "CREATE TABLE {$this->table} (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             usuario_id BIGINT UNSIGNED NOT NULL,
-            cargo VARCHAR(255) NOT NULL,
+            titulo VARCHAR(255) NOT NULL,
+            descricao TEXT NULL,
+            imagem VARCHAR(255) NULL,
+            link_projeto VARCHAR(255) NULL,
+            link_github VARCHAR(255) NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
             PRIMARY KEY (id),
             KEY usuario_id (usuario_id)
-
         ) $charset_collate;";
 
         dbDelta($sql);
     }
 
-    public function cadastrar($usuario_id, $cargo)
+    public function cadastrar($usuario_id, $titulo, $descricao, $imagem, $link_projeto, $link_github)
     {
         return $this->wpdb->insert(
             $this->table,
             [
-                'usuario_id' => $usuario_id,
-                'cargo'      => $cargo
+                'usuario_id'   => $usuario_id,
+                'titulo'       => $titulo,
+                'descricao'    => $descricao,
+                'imagem'       => $imagem,
+                'link_projeto' => $link_projeto,
+                'link_github'  => $link_github,
             ],
-            [
-                '%d',
-                '%s'
-            ]
+            ['%d', '%s', '%s', '%s', '%s', '%s']
         );
     }
 
-    public function atualizar($id, $cargo)
+    public function atualizar($id, $titulo, $descricao, $imagem, $link_projeto, $link_github)
     {
         return $this->wpdb->update(
             $this->table,
-            ['cargo' => $cargo],
+            [
+                'titulo'       => $titulo,
+                'descricao'    => $descricao,
+                'imagem'       => $imagem,
+                'link_projeto' => $link_projeto,
+                'link_github'  => $link_github,
+            ],
             ['id' => $id],
-            ['%s'],
+            ['%s', '%s', '%s', '%s', '%s'],
             ['%d']
         );
     }

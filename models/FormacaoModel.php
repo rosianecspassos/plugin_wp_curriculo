@@ -89,6 +89,15 @@ class FormacaoModel
         );
     }
 
+    public function excluir($id)
+    {
+        return $this->wpdb->delete(
+            $this->table,
+            ['id' => $id],
+            ['%d']
+        );
+    }
+
     public function buscar_por_usuario($usuario_id)
     {
         return $this->wpdb->get_results(
