@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
+
 <div style="max-width:1000px;margin:0 auto;font-family:Arial,sans-serif;">
     <h2>Gerenciamento de Competências</h2>
     <?php if (!empty($status)): ?>
@@ -69,9 +70,13 @@ if (!defined('ABSPATH')) {
                         <textarea name="descricao" rows="2" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"><?php echo esc_textarea($competencia['descricao']); ?></textarea>
                     </label>
 
-                    <button type="submit" style="background:#16a34a;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Salvar</button>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <button type="submit" style="background:#16a34a;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Salvar</button>
+                        <button type="submit" name="acao_competencias" value="excluir_competencia" style="background:#dc2626;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Excluir</button>
+                    </div>
                 </form>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
 </div>
+     

@@ -69,7 +69,10 @@ if (!defined('ABSPATH')) {
                         <input type="text" name="instituicao" value="<?php echo esc_attr($curso_item['instituicao']); ?>" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;">
                     </label>
 
-                    <button type="submit" style="background:#16a34a;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Salvar</button>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <button type="submit" style="background:#16a34a;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Salvar</button>
+                        <button type="submit" name="acao_cursos" value="excluir_curso" style="background:#dc2626;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Excluir</button>
+                    </div>
                 </form>
             <?php endforeach; ?>
         <?php endif; ?>

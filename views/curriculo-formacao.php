@@ -3,8 +3,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
+
 <div style="max-width: 900px; margin: 0 auto; font-family: Arial, sans-serif;">
-    <h2>Formações acadêmicas</h2>
 
     <?php if (!empty($formacoes)): ?>
         <div style="display:grid; gap:12px;">

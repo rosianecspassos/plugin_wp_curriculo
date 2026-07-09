@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
+
 <div class="curriculo-experiencias" style="max-width:760px;margin:0 auto;">
     <?php if (empty($experiencias)): ?>
         <p style="background:#f3f4f6;color:#6b7280;padding:16px;border-radius:10px;text-align:center;">Nenhuma experiência encontrada.</p>
@@ -17,3 +18,4 @@ if (!defined('ABSPATH')) {
         </ul>
     <?php endif; ?>
 </div>
+        

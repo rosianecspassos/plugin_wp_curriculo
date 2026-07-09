@@ -79,7 +79,15 @@ if (!defined('ABSPATH')) {
                             <span><?php echo esc_html($formacao['instituicao']); ?></span><br>
                             <small><?php echo esc_html($formacao['grau']); ?> • <?php echo esc_html($formacao['titulo']); ?> • <?php echo esc_html($formacao['status'] === 'cursando' ? 'Cursando' : 'Concluído'); ?> • <?php echo esc_html($formacao['ano_conclusao']); ?></small>
                         </div>
-                        <a href="<?php echo esc_url(add_query_arg(['editar' => intval($formacao['id'])], wp_unslash($_SERVER['REQUEST_URI']))); ?>" style="color:#2563eb;">Editar</a>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+                            <a href="<?php echo esc_url(add_query_arg(['editar' => intval($formacao['id'])], wp_unslash($_SERVER['REQUEST_URI']))); ?>" style="color:#2563eb;">Editar</a>
+                            <form method="post" style="margin:0;">
+                                <input type="hidden" name="acao_formacao" value="excluir_formacao">
+                                <input type="hidden" name="formacao_id" value="<?php echo esc_attr(intval($formacao['id'])); ?>">
+                                <?php wp_nonce_field('salvar_formacao_acao'); ?>
+                                <button type="submit" style="background:#dc2626;color:#fff;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;">Excluir</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>

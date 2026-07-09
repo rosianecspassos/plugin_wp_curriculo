@@ -74,7 +74,10 @@ if (!defined('ABSPATH')) {
                     </label>
 
                     <div></div>
-                    <button type="submit" style="background:#16a34a;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Salvar</button>
+                    <div style="display:flex;flex-direction:column;gap:8px;">
+                        <button type="submit" style="background:#16a34a;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Salvar</button>
+                        <button type="submit" name="acao_idiomas" value="excluir_idioma" style="background:#dc2626;color:#fff;padding:12px 20px;border:none;border-radius:10px;cursor:pointer;">Excluir</button>
+                    </div>
                 </form>
             <?php endforeach; ?>
         <?php endif; ?>
