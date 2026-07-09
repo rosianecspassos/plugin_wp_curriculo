@@ -24,11 +24,13 @@ class Loader
             GERENCIADOR_SAAS_PATH . 'models/IdiomaModel.php',
             GERENCIADOR_SAAS_PATH . 'models/CompetenciaModel.php',
             GERENCIADOR_SAAS_PATH . 'models/CursoModel.php',
+            GERENCIADOR_SAAS_PATH . 'models/PortifolioModel.php',
             GERENCIADOR_SAAS_PATH . 'controllers/DashboardController.php',
             GERENCIADOR_SAAS_PATH . 'controllers/Login.php',
             GERENCIADOR_SAAS_PATH . 'controllers/IdiomasController.php',
             GERENCIADOR_SAAS_PATH . 'controllers/CompetenciasController.php',
             GERENCIADOR_SAAS_PATH . 'controllers/CursosController.php',
+            GERENCIADOR_SAAS_PATH . 'controllers/PortifolioController.php',
             GERENCIADOR_SAAS_PATH . 'models/ExperienciaModel.php',
             GERENCIADOR_SAAS_PATH . 'controllers/ExperienciasController.php',
             GERENCIADOR_SAAS_PATH . 'controllers/FormacaoController.php',
@@ -95,6 +97,14 @@ class Loader
         } else {
             if (function_exists('error_log')) {
                 error_log('[Gerenciador Saas] CursosController class not found.');
+            }
+        }
+
+        if (class_exists('PortifolioController')) {
+            new PortifolioController();
+        } else {
+            if (function_exists('error_log')) {
+                error_log('[Gerenciador Saas] PortifolioController class not found.');
             }
         }
 
