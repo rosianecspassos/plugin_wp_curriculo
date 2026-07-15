@@ -5,6 +5,8 @@ if (!defined('ABSPATH')) {
 }
 class ExperienciasController {
     private $model;
+    private static $panel_rendered = false;
+    private static $curriculo_rendered = false;
 
     public function __construct() {
         $this->model = new ExperienciaModel();
@@ -14,9 +16,8 @@ class ExperienciasController {
     public function init_hooks() {
         $this->process_post_requests();
         add_shortcode('curriculo_experiencias', [$this, 'render_experiencias_curriculo']);
-        add_shortcode('curriculo-experiencias', [$this, 'render_experiencias_curriculo']);
         add_shortcode('sistema_experiencias', [$this, 'render_panel']);
-        add_shortcode('sistema-experiencias', [$this, 'render_panel']);
+      
     }
 
     public function process_post_requests() {
@@ -32,7 +33,7 @@ class ExperienciasController {
             wp_die('Erro de segurança. Tente novamente.');
         }
 
-        if (!current_user_can('manage_options')) {
+        if (!gerenciador_saas_user_can_manage()) {
             return;
         }
 
@@ -72,6 +73,12 @@ class ExperienciasController {
     }
 
     public function render_panel() {
+        if (self::$panel_rendered) {
+            return '';
+        }
+
+        self::$panel_rendered = true;
+
         if (!is_user_logged_in()) {
             return '<p>Por favor, faça <a href="' . esc_url(home_url('/login')) . '">login</a>.</p>';
         }
@@ -85,6 +92,12 @@ class ExperienciasController {
     }
 
     public function render_experiencias_curriculo() {
+        if (self::$curriculo_rendered) {
+            return '';
+        }
+
+        self::$curriculo_rendered = true;
+
         $experiencias = $this->model->buscar_todos();
 
         ob_start();
