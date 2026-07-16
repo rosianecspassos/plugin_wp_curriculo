@@ -18,7 +18,68 @@ if (!defined('ABSPATH')) {
 
                 <label style="display:block;margin-bottom:14px;">
                     <strong>Ícone</strong><br>
-                    <input type="text" name="icon" placeholder="Ex: 📘 ou fas fa-book" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;">
+                    <div class="saas-icon-grid">
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-book">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-book'); ?>
+                            <span>Livro</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-lightbulb">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-lightbulb'); ?>
+                            <span>Conhecimento</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-flask">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-flask'); ?>
+                            <span>Laboratório</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-laptop-code">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-laptop-code'); ?>
+                            <span>Tecnologia</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-chart-line">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-chart-line'); ?>
+                            <span>Crescimento</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-graduation-cap">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-graduation-cap'); ?>
+                            <span>Formação</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-globe">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-globe'); ?>
+                            <span>Web</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-gear">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-gear'); ?>
+                            <span>Processo</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-rocket">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-rocket'); ?>
+                            <span>Inovação</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-circle-check">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-circle-check'); ?>
+                            <span>Certificação</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-bullseye">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-bullseye'); ?>
+                            <span>Objetivo</span>
+                        </label>
+                        <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fa-solid fa-star">
+                            <?php echo gerenciador_saas_render_icon('fa-solid fa-star'); ?>
+                            <span>Destaque</span>
+                        </label>
+                    </div>
                 </label>
 
                 <label style="display:block;margin-bottom:14px;">
@@ -56,7 +117,75 @@ if (!defined('ABSPATH')) {
 
                     <label style="display:block;">
                         <strong>Ícone</strong><br>
-                        <input type="text" name="icon" value="<?php echo esc_attr($curso_item['icon']); ?>" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;">
+                        <div class="saas-icon-grid">
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-book" <?php checked($curso_item['icon'], 'fa-solid fa-book'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-book'); ?>
+                                <span>Livro</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-lightbulb" <?php checked($curso_item['icon'], 'fa-solid fa-lightbulb'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-lightbulb'); ?>
+                                <span>Conhecimento</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-flask" <?php checked($curso_item['icon'], 'fa-solid fa-flask'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-flask'); ?>
+                                <span>Laboratório</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-laptop-code" <?php checked($curso_item['icon'], 'fa-solid fa-laptop-code'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-laptop-code'); ?>
+                                <span>Tecnologia</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-chart-line" <?php checked($curso_item['icon'], 'fa-solid fa-chart-line'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-chart-line'); ?>
+                                <span>Crescimento</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-graduation-cap" <?php checked($curso_item['icon'], 'fa-solid fa-graduation-cap'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-graduation-cap'); ?>
+                                <span>Formação</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-globe" <?php checked($curso_item['icon'], 'fa-solid fa-globe'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-globe'); ?>
+                                <span>Web</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-gear" <?php checked($curso_item['icon'], 'fa-solid fa-gear'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-gear'); ?>
+                                <span>Processo</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-rocket" <?php checked($curso_item['icon'], 'fa-solid fa-rocket'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-rocket'); ?>
+                                <span>Inovação</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-circle-check" <?php checked($curso_item['icon'], 'fa-solid fa-circle-check'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-circle-check'); ?>
+                                <span>Certificação</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-bullseye" <?php checked($curso_item['icon'], 'fa-solid fa-bullseye'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-bullseye'); ?>
+                                <span>Objetivo</span>
+                            </label>
+                            <label class="saas-icon-option">
+                                <input type="radio" name="icon" value="fa-solid fa-star" <?php checked($curso_item['icon'], 'fa-solid fa-star'); ?>>
+                                <?php echo gerenciador_saas_render_icon('fa-solid fa-star'); ?>
+                                <span>Destaque</span>
+                            </label>
+                            <?php if (!empty($curso_item['icon']) && !in_array($curso_item['icon'], ['fa-solid fa-book','fa-solid fa-lightbulb','fa-solid fa-flask','fa-solid fa-laptop-code','fa-solid fa-chart-line','fa-solid fa-graduation-cap','fa-solid fa-globe','fa-solid fa-gear','fa-solid fa-rocket','fa-solid fa-circle-check','fa-solid fa-bullseye','fa-solid fa-star'], true)): ?>
+                                <label class="saas-icon-option">
+                                    <input type="radio" name="icon" value="<?php echo esc_attr($curso_item['icon']); ?>" checked>
+                                    <?php echo gerenciador_saas_render_icon($curso_item['icon']); ?>
+                                    <span><?php echo esc_html($curso_item['icon']); ?></span>
+                                </label>
+                            <?php endif; ?>
+                        </div>
                     </label>
 
                     <label style="display:block;">
