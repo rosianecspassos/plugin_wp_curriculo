@@ -13,8 +13,54 @@ if (!defined('ABSPATH')) {
 define('GERENCIADOR_SAAS_PATH', plugin_dir_path(__FILE__));
 define('GERENCIADOR_SAAS_URL', plugin_dir_url(__FILE__));
 
+function gerenciador_saas_ensure_user_role()
+{
+    if (!function_exists('add_role') || !function_exists('get_role')) {
+        return;
+    }
+
+    $role = get_role('usuarios_internos');
+
+    if (null === $role) {
+        add_role('usuarios_internos', 'Usuário Interno', [
+            'read' => true,
+            'edit_posts' => true,
+            'upload_files' => true,
+            'gerenciar_curriculo_saas' => true,
+        ]);
+    } else {
+        $role->add_cap('gerenciar_curriculo_saas');
+        $role->add_cap('read');
+        $role->add_cap('edit_posts');
+        $role->add_cap('upload_files');
+    }
+
+    $admin_role = get_role('administrator');
+    if ($admin_role) {
+        $admin_role->add_cap('gerenciar_curriculo_saas');
+    }
+}
+
+function gerenciador_saas_user_can_manage($user = null)
+{
+    if ($user && is_object($user) && isset($user->allcaps)) {
+        if (!empty($user->allcaps['gerenciar_curriculo_saas']) || !empty($user->allcaps['manage_options'])) {
+            return true;
+        }
+
+        if (is_array($user->roles) && in_array('administrator', $user->roles, true)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    return current_user_can('gerenciar_curriculo_saas') || current_user_can('manage_options') || current_user_can('edit_pages');
+}
+
+add_action('init', 'gerenciador_saas_ensure_user_role');
+
 require_once GERENCIADOR_SAAS_PATH . 'core/Loader.php';
-//require_once GERENCIADOR_SAAS_PATH . 'models/IdiomaModel.php';
 
 $saas_plugin = new Loader();
 $saas_plugin->run();
@@ -60,6 +106,8 @@ function gerenciador_saas_activate() {
     // Ensure dependencies are loaded so rewrite rules are added
     $loader = new Loader();
     $loader->run();
+    gerenciador_saas_ensure_user_role();
+
     // Create required pages if they don't exist yet
     $required_pages = [
         'sistema-painel' => '[sistema_painel]',
@@ -91,6 +139,8 @@ function gerenciador_saas_create_schema() {
         new FormacaoModel(),
         new CompetenciaModel(),
         new CursoModel(),
+        new ExperienciaModel(),
+        new PortifolioModel(),
     ];
 
     foreach ($models as $model) {
@@ -234,5 +284,3 @@ function gerenciador_saas_init_schema()
     gerenciador_saas_create_schema();
 }
 //http://localhost:8080/?saas_dashboard=1
-//[sistema_idiomas_progress]
-//Proximo delete e update
