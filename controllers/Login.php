@@ -6,7 +6,39 @@ if (!defined('ABSPATH')) {
 
 // 1. Processa o login ANTES de carregar o HTML da página
 add_action('init', 'processar_login_usuario');
+add_action('wp_enqueue_scripts', 'gerenciador_saas_enqueue_assets');
+add_action('admin_enqueue_scripts', 'gerenciador_saas_enqueue_assets');
 add_shortcode('login_usuario', 'render_login');
+
+function gerenciador_saas_enqueue_assets() {
+    wp_enqueue_style(
+        'font-awesome',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css',
+        [],
+        null
+    );
+
+    wp_enqueue_style(
+        'gerenciador-saas-admin',
+        GERENCIADOR_SAAS_URL . 'assets/css/admin.css',
+        [],
+        '1.0.2'
+    );
+}
+
+function gerenciador_saas_render_icon($icon = '') {
+    if (empty($icon)) {
+        return '';
+    }
+
+    $icon_class = trim($icon);
+
+    if (strpos($icon_class, 'fa') === 0) {
+        return '<i class="' . esc_attr($icon_class) . '" aria-hidden="true"></i>';
+    }
+
+    return esc_html($icon);
+}
 
 function processar_login_usuario() {
     // Só age se o formulário foi enviado
@@ -27,8 +59,7 @@ function processar_login_usuario() {
     $user = wp_signon($creds, false);
 
     if (!is_wp_error($user)) {
-        // Verifica as roles permitidas
-        if (in_array('usuarios_internos', $user->roles) || in_array('administrator', $user->roles)) {
+        if (gerenciador_saas_user_can_manage($user)) {
             wp_redirect(home_url('/sistema-painel'));
             exit;
         }
@@ -47,19 +78,28 @@ function render_login() {
     }
 
     ob_start();
-    
+
     // Exibe mensagem de erro se o login falhou
     if (isset($_POST['login_usuario']) && !is_user_logged_in()) {
-        echo "<p style='color:red;'>Usuário ou senha incorretos.</p>";
+        echo '<p class="saas-login-message saas-login-message-error">Usuário ou senha incorretos.</p>';
     }
     ?>
 
-    <h2>Login</h2>
-    <form method="post">
-        <input type="text" name="username" placeholder="Usuário" required><br><br>
-        <input type="password" name="password" placeholder="Senha" required><br><br>
-        <button type="submit" name="login_usuario">Entrar</button>
-    </form>
+    <div class="saas-login-card">
+        <div class="saas-login-icon">🔐</div>
+        <h2>Acesse o painel</h2>
+        <p class="saas-login-subtitle">Entre com suas credenciais para continuar.</p>
+
+        <form method="post" class="saas-login-form">
+            <label for="saas-username">Usuário</label>
+            <input id="saas-username" type="text" name="username" placeholder="Digite seu usuário" autocomplete="username" required>
+
+            <label for="saas-password">Senha</label>
+            <input id="saas-password" type="password" name="password" placeholder="Digite sua senha" autocomplete="current-password" required>
+
+            <button type="submit" name="login_usuario">Entrar</button>
+        </form>
+    </div>
 
     <?php
     return ob_get_clean();
