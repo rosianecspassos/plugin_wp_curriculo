@@ -35,7 +35,8 @@ class Loader
             GERENCIADOR_SAAS_PATH . 'controllers/ExperienciasController.php',
             GERENCIADOR_SAAS_PATH . 'controllers/FormacaoController.php',
             GERENCIADOR_SAAS_PATH . 'models/FormacaoModel.php',
-            GERENCIADOR_SAAS_PATH . 'controllers/contatoController.php',
+            //GERENCIADOR_SAAS_PATH . 'controllers/contatoController.php',
+               
         ];
 
         foreach ($files as $file) {
@@ -108,12 +109,6 @@ class Loader
             }
         }
 
-        if (class_exists('ContatoController')) {
-            new ContatoController();
-        } else {
-            if (function_exists('error_log')) {
-                error_log('[Gerenciador Saas] ContatoController class not found.');
-            }
-        }
+     
     }
 }
