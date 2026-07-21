@@ -32,7 +32,7 @@ class FormacaoController {
             wp_die('Erro de segurança. Tente novamente.');
         }
 
-        if (!current_user_can('manage_options')) {
+        if (!gerenciador_saas_user_can_manage()) {
             return;
         }
 

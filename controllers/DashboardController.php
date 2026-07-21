@@ -132,15 +132,15 @@ class DashboardController
                 <a href="?secao=home" style="color:#fff; display:block; margin-bottom:10px;">📄 Home</a>
 
                 <!--Adiciona o link para form-idiomas.php-->
-                <a href="?secao=idiomas" style="color:#fff; display:block; margin-bottom:10px;">🌐 Idiomas</a >
+                <a href="?secao=idiomas" style="color:#fff; display:block; margin-bottom:10px;">🌐 Idiomas</a>
                 <a href="?secao=competencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Competências</a>
                 <a href="?secao=cursos" style="color:#fff; display:block; margin-bottom:10px;">📚 Cursos</a>
                 <a href="?secao=experiencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Experiências</a>
-                <a href="?secao=formacoes" style="color:#fff; display:block; margin-bottom:10px;">🎓 Formações</a > 
-                <a href="?secao=portifolio" style="color:#fff; display:block; margin-bottom:10px;">🖼️ Portfólio</a > 
+                <a href="?secao=formacoes" style="color:#fff; display:block; margin-bottom:10px;">🎓 Formações</a> 
+                <a href="?secao=portifolio" style="color:#fff; display:block; margin-bottom:10px;">🖼️ Portfólio</a> 
                 <a href="?secao=usuarios" style="color:#fff; display:block; margin-bottom:10px;">👤 Usuários</a>
                 
-                 <hr>
+                <hr>
             
                 <a href="<?php echo esc_url(wp_logout_url(home_url('/login'))); ?>" style="color:#ff7675;">Sair</a>
             </div>
@@ -194,44 +194,180 @@ class DashboardController
             echo '<div style="background:#f8d7da;color:#842029;padding:15px;margin-bottom:20px;border-radius:5px;">⚠️ ' . esc_html($message) . '</div>';
         }
 
+        // =========================================================================
+        // 1. PROCESSAMENTO DAS AÇÕES (UPDATE E DELETE)
+        // =========================================================================
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao_painel'])) {
+
+            // Processa Atualização de Usuário (UPDATE)
+            if ($_POST['acao_painel'] === 'editar_usuario') {
+                if (check_admin_referer('editar_usuario_acao')) {
+                    $user_id = intval($_POST['user_id']);
+                    
+                    $userdata = [
+                        'ID'         => $user_id,
+                        'user_email' => sanitize_email($_POST['email'] ?? ''),
+                        'first_name' => sanitize_text_field($_POST['first_name'] ?? ''),
+                        'last_name'  => sanitize_text_field($_POST['last_name'] ?? ''),
+                    ];
+
+                    // Só altera a senha se o campo não estiver vazio
+                    if (!empty($_POST['password'])) {
+                        $userdata['user_pass'] = $_POST['password'];
+                    }
+
+                    $updated = wp_update_user($userdata);
+
+                    if (!is_wp_error($updated)) {
+                        echo '<div style="padding:12px;background:#dcfce7;color:#166534;border:1px solid #bbf7d0;border-radius:8px;margin-bottom:15px;max-width:700px;">Usuário atualizado com sucesso!</div>';
+                    } else {
+                        echo '<div style="padding:12px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:8px;margin-bottom:15px;max-width:700px;">Erro ao atualizar: ' . esc_html($updated->get_error_message()) . '</div>';
+                    }
+                }
+            }
+
+            // Processa Exclusão de Usuário (DELETE)
+            if ($_POST['acao_painel'] === 'deletar_usuario') {
+                if (check_admin_referer('deletar_usuario_acao')) {
+                    $user_id = intval($_POST['user_id']);
+
+                    // Trava para evitar autoexclusão da conta atual
+                    if (get_current_user_id() !== $user_id) {
+                        require_once(ABSPATH . 'wp-admin/includes/user.php');
+                        if (wp_delete_user($user_id)) {
+                            echo '<div style="padding:12px;background:#dcfce7;color:#166534;border:1px solid #bbf7d0;border-radius:8px;margin-bottom:15px;max-width:700px;">Usuário excluído com sucesso!</div>';
+                        } else {
+                            echo '<div style="padding:12px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:8px;margin-bottom:15px;max-width:700px;">Erro ao excluir o usuário.</div>';
+                        }
+                    } else {
+                        echo '<div style="padding:12px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:8px;margin-bottom:15px;max-width:700px;">Você não pode excluir a sua própria conta por este painel!</div>';
+                    }
+                }
+            }
+        }
+
+        // =========================================================================
+        // 2. FORMULÁRIO DE CADASTRO (CREATE)
+        // =========================================================================
         echo '<h2>Cadastrar usuários</h2>';
         echo '<p>Crie contas internas para o painel com acesso ao conteúdo do currículo.</p>';
         ?>
+
         <form method="post" style="background:#fff;border:1px solid #ddd;border-radius:12px;padding:20px;margin-bottom:20px;max-width:700px;">
             <input type="hidden" name="acao_painel" value="cadastrar_usuario">
             <?php wp_nonce_field('cadastrar_usuario_acao'); ?>
+            
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                 <label><strong>Usuário</strong><br><input type="text" name="username" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
                 <label><strong>E-mail</strong><br><input type="email" name="email" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
                 <label><strong>Nome</strong><br><input type="text" name="first_name" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
                 <label><strong>Sobrenome</strong><br><input type="text" name="last_name" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
             </div>
+            
             <label style="display:block;margin-top:12px;"><strong>Senha</strong><br><input type="password" name="password" placeholder="Opcional; se vazio, será gerada automaticamente" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
             <button type="submit" style="margin-top:16px;background:#2563eb;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;">Cadastrar usuário</button>
         </form>
-        <?php
 
+        <?php
+        // =========================================================================
+        // 3. TABELA COM LISTAGEM E AÇÕES (READ, UPDATE, DELETE)
+        // =========================================================================
         $usuarios = get_users([
-            'role' => 'usuarios_internos',
+            'role'    => 'usuarios_internos',
             'orderby' => 'display_name',
-            'order' => 'ASC',
+            'order'   => 'ASC',
         ]);
 
         if (!empty($usuarios)) {
             echo '<h3>Usuários cadastrados</h3>';
-            echo '<table style="width:100%;border-collapse:collapse;background:#fff;border:1px solid #ddd;">';
-            echo '<thead><tr style="background:#f3f4f6;"><th style="text-align:left;padding:10px;border-bottom:1px solid #ddd;">Usuário</th><th style="text-align:left;padding:10px;border-bottom:1px solid #ddd;">E-mail</th><th style="text-align:left;padding:10px;border-bottom:1px solid #ddd;">Função</th></tr></thead><tbody>';
+            echo '<table style="width:100%;border-collapse:collapse;background:#fff;border:1px solid #ddd;max-width:900px;">';
+            echo '<thead>
+                    <tr style="background:#f3f4f6;">
+                        <th style="text-align:left;padding:10px;border-bottom:1px solid #ddd;">Usuário</th>
+                        <th style="text-align:left;padding:10px;border-bottom:1px solid #ddd;">E-mail</th>
+                        <th style="text-align:left;padding:10px;border-bottom:1px solid #ddd;">Função</th>
+                        <th style="text-align:center;padding:10px;border-bottom:1px solid #ddd;">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>';
+                  
             foreach ($usuarios as $usuario) {
+                $first_name = get_user_meta($usuario->ID, 'first_name', true);
+                $last_name  = get_user_meta($usuario->ID, 'last_name', true);
+
                 echo '<tr>';
                 echo '<td style="padding:10px;border-bottom:1px solid #ddd;">' . esc_html($usuario->display_name ?: $usuario->user_login) . '</td>';
                 echo '<td style="padding:10px;border-bottom:1px solid #ddd;">' . esc_html($usuario->user_email) . '</td>';
                 echo '<td style="padding:10px;border-bottom:1px solid #ddd;">' . esc_html(implode(', ', $usuario->roles)) . '</td>';
+                
+                // Botões de Ação
+                echo '<td style="padding:10px;border-bottom:1px solid #ddd;text-align:center;">';
+                
+                // Botão Editar (Abre a Modal via JS)
+                echo '<button type="button" onclick="abrirModalEdicao(' . esc_attr($usuario->ID) . ', \'' . esc_js(esc_attr($usuario->user_email)) . '\', \'' . esc_js(esc_attr($first_name)) . '\', \'' . esc_js(esc_attr($last_name)) . '\')" style="background:#f59e0b;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;margin-right:6px;">Editar</button>';
+
+                // Form/Botão Deletar
+                echo '<form method="post" style="display:inline;" onsubmit="return confirm(\'Deseja mesmo excluir o usuário ' . esc_attr($usuario->user_login) . '?\');">';
+                echo '<input type="hidden" name="acao_painel" value="deletar_usuario">';
+                echo '<input type="hidden" name="user_id" value="' . esc_attr($usuario->ID) . '">';
+                wp_nonce_field('deletar_usuario_acao');
+                echo '<button type="submit" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;">Excluir</button>';
+                echo '</form>';
+
+                echo '</td>';
                 echo '</tr>';
             }
             echo '</tbody></table>';
         }
+        ?>
+
+        <!-- =========================================================================
+             4. MODAL DE EDIÇÃO (Estrutura HTML/CSS + Script JavaScript)
+             ========================================================================= -->
+        <div id="modal-editar-usuario" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:99999;">
+            <div style="background:#fff;padding:24px;border-radius:12px;width:100%;max-width:500px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">
+                <h3 style="margin-top:0;margin-bottom:16px;">Editar Usuário</h3>
+                
+                <form method="post">
+                    <input type="hidden" name="acao_painel" value="editar_usuario">
+                    <input type="hidden" name="user_id" id="edit_user_id">
+                    <?php wp_nonce_field('editar_usuario_acao'); ?>
+                    
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                        <label><strong>Nome</strong><br><input type="text" name="first_name" id="edit_first_name" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
+                        <label><strong>Sobrenome</strong><br><input type="text" name="last_name" id="edit_last_name" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
+                    </div>
+                    
+                    <label style="display:block;margin-bottom:12px;"><strong>E-mail</strong><br><input type="email" name="email" id="edit_email" required style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
+                    <label style="display:block;margin-bottom:16px;"><strong>Nova Senha</strong><br><input type="password" name="password" placeholder="Deixe em branco para manter a atual" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
+                    
+                    <div style="text-align:right;display:flex;gap:8px;justify-content:flex-end;">
+                        <button type="button" onclick="fecharModalEdicao()" style="background:#6b7280;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;">Cancelar</button>
+                        <button type="submit" style="background:#2563eb;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+        function abrirModalEdicao(id, email, firstName, lastName) {
+            document.getElementById('edit_user_id').value = id;
+            document.getElementById('edit_email').value = email;
+            document.getElementById('edit_first_name').value = firstName;
+            document.getElementById('edit_last_name').value = lastName;
+            document.getElementById('modal-editar-usuario').style.display = 'flex';
+        }
+
+        function fecharModalEdicao() {
+            document.getElementById('modal-editar-usuario').style.display = 'none';
+        }
+        </script>
+        <?php
     }
 
+    // =========================================================================
+    // 5. EDITOR DINÂMICO DE PÁGINAS
+    // =========================================================================
     private function generate_dynamic_editor($slug)
     {
         $pagina = get_page_by_path($slug);
