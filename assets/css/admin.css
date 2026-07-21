@@ -70,7 +70,7 @@
 }
 
 .btn-primary {
-    background-color: #2563eb;
+    background-color: #062a79;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -80,11 +80,11 @@
 }
 
 .btn-primary:hover {
-    background-color: #1d4ed8;
+    background-color: #86959a;
 }
 
 .formulario-contato .btn-primary {
-    background-color: #2563eb;
+    background-color: #062a79;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -111,7 +111,7 @@
     height: 56px;
     margin-bottom: 1rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    background: linear-gradient(135deg, #062a79, #3b82f6);
     font-size: 1.5rem;
     box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
 }
@@ -262,38 +262,39 @@
     padding: 0.7rem 0.8rem;
     border: 1px solid #d1d5db;
     border-radius: 10px;
-    background: #f8fafc;
+    background: #0c0c0c;
     cursor: pointer;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     min-height: 44px;
 }
 
 .saas-icon-option:hover {
-    border-color: #2563eb;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.1);
+    border-color: #000000; /* Borda preta no hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra mais neutra */
 }
 
 .saas-icon-option input {
     display: none;
 }
 
-.saas-icon-option i,
-.saas-icon-option svg {
-    color: #2563eb;
-    font-size: 1rem;
-    width: 1rem;
-    height: 1rem;
+
+/* Garante que caminhos internos de SVGs do tema também herdem o preto */
+.saas-icon-option svg path {
+    fill: inherit !important;
+    stroke: inherit !important;
 }
 
+/* Texto em preto */
 .saas-icon-option span {
-    color: #334155;
+    color: #000000;
     font-size: 0.9rem;
 }
 
+/* Quando o input estiver selecionado */
 .saas-icon-option:has(input:checked) {
-    border-color: #2563eb;
-    background: #eff6ff;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+    border-color: #000000; /* Borda preta absoluta */
+    background: #f1f1f1; /* Fundo cinza bem claro para destacar de forma neutra */
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2); /* Sombra de foco preta suave */
 }
 
 @media (max-width: 900px) {
