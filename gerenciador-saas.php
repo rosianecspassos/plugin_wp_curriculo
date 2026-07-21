@@ -70,7 +70,6 @@ gerenciamento_saas_ensure_login_page();
 gerenciamento_saas_ensure_idiomas_page();
 gerenciamento_saas_ensure_competencias_page();
 gerenciamento_saas_ensure_cursos_page();
-gerenciamento_saas_ensure_contato_page();
 gerenciamento_saas_ensure_portifolio_page();
 
 function gerenciamento_saas_ensure_idiomas_page()
@@ -82,14 +81,13 @@ function gerenciamento_saas_ensure_idiomas_page()
     $slug = 'idiomas';
     if (!get_page_by_path($slug)) {
         wp_insert_post([
-            'post_title'   => 'Idiomas',
-            'post_name'    => $slug,
+            'post_title' => 'Idiomas',
+            'post_name' => $slug,
             'post_content' => '[sistema_idiomas]',
-            'post_status'  => 'publish',
-            'post_type'    => 'page',
+            'post_status' => 'publish',
+            'post_type' => 'page',
         ]);
-    }
-    else {
+    } else {
         $page = get_page_by_path($slug);
         if ($page && strpos($page->post_content, '[sistema_idiomas]') === false) {
             wp_update_post([
@@ -102,7 +100,8 @@ function gerenciamento_saas_ensure_idiomas_page()
 
 // Flush rewrite rules on activation/deactivation to register the public route
 register_activation_hook(__FILE__, 'gerenciador_saas_activate');
-function gerenciador_saas_activate() {
+function gerenciador_saas_activate()
+{
     // Ensure dependencies are loaded so rewrite rules are added
     $loader = new Loader();
     $loader->run();
@@ -113,18 +112,18 @@ function gerenciador_saas_activate() {
         'sistema-painel' => '[sistema_painel]',
         'login' => '[login_usuario]',
         'competencias' => '[sistema_competencias]',
-        'contato' => '[formulario_contato]',
+        //'contato' => '[formulario_contato]',
         'portifolio' => '[sistema_portifolio]',
     ];
 
     foreach ($required_pages as $slug => $content) {
         if (!get_page_by_path($slug)) {
             wp_insert_post([
-                'post_title'   => ucwords(str_replace('-', ' ', $slug)),
-                'post_name'    => $slug,
+                'post_title' => ucwords(str_replace('-', ' ', $slug)),
+                'post_name' => $slug,
                 'post_content' => $content,
-                'post_status'  => 'publish',
-                'post_type'    => 'page',
+                'post_status' => 'publish',
+                'post_type' => 'page',
             ]);
         }
     }
@@ -133,7 +132,8 @@ function gerenciador_saas_activate() {
     flush_rewrite_rules();
 }
 
-function gerenciador_saas_create_schema() {
+function gerenciador_saas_create_schema()
+{
     $models = [
         new IdiomaModel(),
         new FormacaoModel(),
@@ -159,17 +159,17 @@ function gerenciamento_saas_ensure_competencias_page()
     $slug = 'competencias';
     if (!get_page_by_path($slug)) {
         wp_insert_post([
-            'post_title'   => 'Competências',
-            'post_name'    => $slug,
+            'post_title' => 'Competências',
+            'post_name' => $slug,
             'post_content' => '[sistema_competencias]',
-            'post_status'  => 'publish',
-            'post_type'    => 'page',
+            'post_status' => 'publish',
+            'post_type' => 'page',
         ]);
     } else {
         $page = get_page_by_path($slug);
         if ($page && strpos($page->post_content, '[sistema_competencias]') === false) {
             wp_update_post([
-                'ID'           => $page->ID,
+                'ID' => $page->ID,
                 'post_content' => '[sistema_competencias]',
             ]);
         }
@@ -185,48 +185,24 @@ function gerenciamento_saas_ensure_cursos_page()
     $slug = 'cursos';
     if (!get_page_by_path($slug)) {
         wp_insert_post([
-            'post_title'   => 'Cursos',
-            'post_name'    => $slug,
+            'post_title' => 'Cursos',
+            'post_name' => $slug,
             'post_content' => '[sistema_cursos]',
-            'post_status'  => 'publish',
-            'post_type'    => 'page',
+            'post_status' => 'publish',
+            'post_type' => 'page',
         ]);
     } else {
         $page = get_page_by_path($slug);
         if ($page && strpos($page->post_content, '[sistema_cursos]') === false) {
             wp_update_post([
-                'ID'           => $page->ID,
+                'ID' => $page->ID,
                 'post_content' => '[sistema_cursos]',
             ]);
         }
     }
 }
 
-function gerenciamento_saas_ensure_contato_page()
-{
-    if (!function_exists('get_page_by_path')) {
-        return;
-    }
 
-    $slug = 'contato';
-    if (!get_page_by_path($slug)) {
-        wp_insert_post([
-            'post_title'   => 'Contato',
-            'post_name'    => $slug,
-            'post_content' => '[formulario_contato]',
-            'post_status'  => 'publish',
-            'post_type'    => 'page',
-        ]);
-    } else {
-        $page = get_page_by_path($slug);
-        if ($page && strpos($page->post_content, '[formulario_contato]') === false) {
-            wp_update_post([
-                'ID'           => $page->ID,
-                'post_content' => '[formulario_contato]',
-            ]);
-        }
-    }
-}
 
 function gerenciamento_saas_ensure_portifolio_page()
 {
@@ -238,11 +214,11 @@ function gerenciamento_saas_ensure_portifolio_page()
     $shortcode = '[sistema_portifolio]';
     if (!get_page_by_path($slug)) {
         wp_insert_post([
-            'post_title'   => 'Portfólio',
-            'post_name'    => $slug,
+            'post_title' => 'Portfólio',
+            'post_name' => $slug,
             'post_content' => $shortcode,
-            'post_status'  => 'publish',
-            'post_type'    => 'page',
+            'post_status' => 'publish',
+            'post_type' => 'page',
         ]);
     } else {
         $page = get_page_by_path($slug);
@@ -256,7 +232,8 @@ function gerenciamento_saas_ensure_portifolio_page()
 }
 
 register_deactivation_hook(__FILE__, 'gerenciador_saas_deactivate');
-function gerenciador_saas_deactivate() {
+function gerenciador_saas_deactivate()
+{
     flush_rewrite_rules();
 }
 
@@ -269,11 +246,11 @@ function gerenciamento_saas_ensure_login_page()
     $slug = 'login';
     if (!get_page_by_path($slug)) {
         wp_insert_post([
-            'post_title'   => 'Login',
-            'post_name'    => $slug,
+            'post_title' => 'Login',
+            'post_name' => $slug,
             'post_content' => '[login_usuario]',
-            'post_status'  => 'publish',
-            'post_type'    => 'page',
+            'post_status' => 'publish',
+            'post_type' => 'page',
         ]);
     }
 }
