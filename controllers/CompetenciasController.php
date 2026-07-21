@@ -65,7 +65,7 @@ class CompetenciasController
     private function redirect_success()
     {
         $redirect_url = add_query_arg([
-            'secao'  => 'competencias',
+            'secao' => 'competencias',
             'status' => 'sucesso',
         ], wp_unslash($_SERVER['REQUEST_URI']));
 

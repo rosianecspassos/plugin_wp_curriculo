@@ -66,7 +66,7 @@ class PortifolioController
     private function redirect_success()
     {
         $redirect_url = add_query_arg([
-            'secao'  => 'portifolio',
+            'secao' => 'portifolio',
             'status' => 'sucesso',
         ], wp_unslash($_SERVER['REQUEST_URI']));
 

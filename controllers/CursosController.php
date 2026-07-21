@@ -65,7 +65,7 @@ class CursosController
     private function redirect_success()
     {
         $redirect_url = add_query_arg([
-            'secao'  => 'cursos',
+            'secao' => 'cursos',
             'status' => 'sucesso',
         ], wp_unslash($_SERVER['REQUEST_URI']));
 

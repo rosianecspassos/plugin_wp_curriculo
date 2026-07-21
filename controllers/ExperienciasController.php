@@ -3,24 +3,28 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-class ExperienciasController {
+class ExperienciasController
+{
     private $model;
     private static $panel_rendered = false;
     private static $curriculo_rendered = false;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->model = new ExperienciaModel();
         add_action('init', [$this, 'init_hooks']);
     }
 
-    public function init_hooks() {
+    public function init_hooks()
+    {
         $this->process_post_requests();
         add_shortcode('curriculo_experiencias', [$this, 'render_experiencias_curriculo']);
         add_shortcode('sistema_experiencias', [$this, 'render_panel']);
-      
+
     }
 
-    public function process_post_requests() {
+    public function process_post_requests()
+    {
         if (!is_user_logged_in()) {
             return;
         }
@@ -58,21 +62,24 @@ class ExperienciasController {
         }
     }
 
-    private function redirect_success() {
+    private function redirect_success()
+    {
         $redirect_url = add_query_arg([
-            'secao'   => 'experiencias',
-            'status'  => 'sucesso',
+            'secao' => 'experiencias',
+            'status' => 'sucesso',
         ], wp_unslash($_SERVER['REQUEST_URI']));
 
         wp_safe_redirect($redirect_url);
         exit;
     }
 
-    private function get_experiencias() {
+    private function get_experiencias()
+    {
         return $this->model->buscar_por_usuario(get_current_user_id());
     }
 
-    public function render_panel() {
+    public function render_panel()
+    {
         if (self::$panel_rendered) {
             return '';
         }
@@ -91,7 +98,8 @@ class ExperienciasController {
         return ob_get_clean();
     }
 
-    public function render_experiencias_curriculo() {
+    public function render_experiencias_curriculo()
+    {
         if (self::$curriculo_rendered) {
             return '';
         }

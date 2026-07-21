@@ -35,11 +35,11 @@ class DashboardController
                 wp_die('Você não tem permissão para cadastrar usuários.');
             }
 
-            $username   = sanitize_user($_POST['username'] ?? '');
-            $email      = sanitize_email($_POST['email'] ?? '');
+            $username = sanitize_user($_POST['username'] ?? '');
+            $email = sanitize_email($_POST['email'] ?? '');
             $first_name = sanitize_text_field($_POST['first_name'] ?? '');
-            $last_name  = sanitize_text_field($_POST['last_name'] ?? '');
-            $password   = isset($_POST['password']) ? $_POST['password'] : '';
+            $last_name = sanitize_text_field($_POST['last_name'] ?? '');
+            $password = isset($_POST['password']) ? $_POST['password'] : '';
 
             if (empty($username) || empty($email)) {
                 $this->redirect_usuario('erro', 'Preencha usuário e e-mail.');
@@ -54,13 +54,13 @@ class DashboardController
             }
 
             $user_id = wp_insert_user([
-                'user_login'   => $username,
-                'user_email'   => $email,
-                'first_name'   => $first_name,
-                'last_name'    => $last_name,
+                'user_login' => $username,
+                'user_email' => $email,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
                 'display_name' => trim($first_name . ' ' . $last_name) ?: $username,
-                'role'         => 'usuarios_internos',
-                'user_pass'    => $password,
+                'role' => 'usuarios_internos',
+                'user_pass' => $password,
             ]);
 
             if (is_wp_error($user_id)) {
@@ -79,19 +79,19 @@ class DashboardController
                 wp_die('Erro de segurança. Tente novamente.');
             }
 
-            $pagina_id     = intval($_POST['pagina_id']);
+            $pagina_id = intval($_POST['pagina_id']);
             $novo_conteudo = wp_kses_post(wp_unslash($_POST['conteudo']));
 
             if (current_user_can('edit_pages')) {
                 $updated = wp_update_post([
-                    'ID'           => $pagina_id,
+                    'ID' => $pagina_id,
                     'post_content' => $novo_conteudo,
                 ]);
 
                 if ($updated) {
                     $secao = isset($_GET['secao']) ? sanitize_text_field($_GET['secao']) : 'dashboard';
                     $redirect_url = add_query_arg([
-                        'secao'  => $secao,
+                        'secao' => $secao,
                         'status' => 'sucesso',
                     ], wp_unslash($_SERVER['REQUEST_URI']));
 
@@ -105,8 +105,8 @@ class DashboardController
     private function redirect_usuario($status, $message)
     {
         $redirect_url = add_query_arg([
-            'secao'   => 'usuarios',
-            'status'  => $status,
+            'secao' => 'usuarios',
+            'status' => $status,
             'message' => urlencode($message),
         ], wp_unslash($_SERVER['REQUEST_URI']));
 
@@ -120,7 +120,7 @@ class DashboardController
             return '<p>Por favor, faça <a href="' . esc_url(home_url('/login')) . '">login</a>.</p>';
         }
 
-        $user  = wp_get_current_user();
+        $user = wp_get_current_user();
         $secao = isset($_GET['secao']) ? sanitize_text_field($_GET['secao']) : 'dashboard';
 
         ob_start();
@@ -136,12 +136,12 @@ class DashboardController
                 <a href="?secao=competencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Competências</a>
                 <a href="?secao=cursos" style="color:#fff; display:block; margin-bottom:10px;">📚 Cursos</a>
                 <a href="?secao=experiencias" style="color:#fff; display:block; margin-bottom:10px;">💼 Experiências</a>
-                <a href="?secao=formacoes" style="color:#fff; display:block; margin-bottom:10px;">🎓 Formações</a> 
-                <a href="?secao=portifolio" style="color:#fff; display:block; margin-bottom:10px;">🖼️ Portfólio</a> 
+                <a href="?secao=formacoes" style="color:#fff; display:block; margin-bottom:10px;">🎓 Formações</a>
+                <a href="?secao=portifolio" style="color:#fff; display:block; margin-bottom:10px;">🖼️ Portfólio</a>
                 <a href="?secao=usuarios" style="color:#fff; display:block; margin-bottom:10px;">👤 Usuários</a>
-                
+
                 <hr>
-            
+
                 <a href="<?php echo esc_url(wp_logout_url(home_url('/login'))); ?>" style="color:#ff7675;">Sair</a>
             </div>
 
@@ -203,12 +203,12 @@ class DashboardController
             if ($_POST['acao_painel'] === 'editar_usuario') {
                 if (check_admin_referer('editar_usuario_acao')) {
                     $user_id = intval($_POST['user_id']);
-                    
+
                     $userdata = [
-                        'ID'         => $user_id,
+                        'ID' => $user_id,
                         'user_email' => sanitize_email($_POST['email'] ?? ''),
                         'first_name' => sanitize_text_field($_POST['first_name'] ?? ''),
-                        'last_name'  => sanitize_text_field($_POST['last_name'] ?? ''),
+                        'last_name' => sanitize_text_field($_POST['last_name'] ?? ''),
                     ];
 
                     // Só altera a senha se o campo não estiver vazio
@@ -253,19 +253,28 @@ class DashboardController
         echo '<p>Crie contas internas para o painel com acesso ao conteúdo do currículo.</p>';
         ?>
 
-        <form method="post" style="background:#fff;border:1px solid #ddd;border-radius:12px;padding:20px;margin-bottom:20px;max-width:700px;">
+        <form method="post"
+            style="background:#fff;border:1px solid #ddd;border-radius:12px;padding:20px;margin-bottom:20px;max-width:700px;">
             <input type="hidden" name="acao_painel" value="cadastrar_usuario">
             <?php wp_nonce_field('cadastrar_usuario_acao'); ?>
-            
+
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                <label><strong>Usuário</strong><br><input type="text" name="username" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
-                <label><strong>E-mail</strong><br><input type="email" name="email" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
-                <label><strong>Nome</strong><br><input type="text" name="first_name" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
-                <label><strong>Sobrenome</strong><br><input type="text" name="last_name" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
+                <label><strong>Usuário</strong><br><input type="text" name="username" required
+                        style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
+                <label><strong>E-mail</strong><br><input type="email" name="email" required
+                        style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
+                <label><strong>Nome</strong><br><input type="text" name="first_name"
+                        style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
+                <label><strong>Sobrenome</strong><br><input type="text" name="last_name"
+                        style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
             </div>
-            
-            <label style="display:block;margin-top:12px;"><strong>Senha</strong><br><input type="password" name="password" placeholder="Opcional; se vazio, será gerada automaticamente" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
-            <button type="submit" style="margin-top:16px;background:#2563eb;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;">Cadastrar usuário</button>
+
+            <label style="display:block;margin-top:12px;"><strong>Senha</strong><br><input type="password" name="password"
+                    placeholder="Opcional; se vazio, será gerada automaticamente"
+                    style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;"></label>
+            <button type="submit"
+                style="margin-top:16px;background:#2563eb;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;">Cadastrar
+                usuário</button>
         </form>
 
         <?php
@@ -273,9 +282,9 @@ class DashboardController
         // 3. TABELA COM LISTAGEM E AÇÕES (READ, UPDATE, DELETE)
         // =========================================================================
         $usuarios = get_users([
-            'role'    => 'usuarios_internos',
+            'role' => 'usuarios_internos',
             'orderby' => 'display_name',
-            'order'   => 'ASC',
+            'order' => 'ASC',
         ]);
 
         if (!empty($usuarios)) {
@@ -290,30 +299,32 @@ class DashboardController
                     </tr>
                   </thead>
                   <tbody>';
-                  
+
             foreach ($usuarios as $usuario) {
                 $first_name = get_user_meta($usuario->ID, 'first_name', true);
-                $last_name  = get_user_meta($usuario->ID, 'last_name', true);
+                $last_name = get_user_meta($usuario->ID, 'last_name', true);
 
                 echo '<tr>';
                 echo '<td style="padding:10px;border-bottom:1px solid #ddd;">' . esc_html($usuario->display_name ?: $usuario->user_login) . '</td>';
                 echo '<td style="padding:10px;border-bottom:1px solid #ddd;">' . esc_html($usuario->user_email) . '</td>';
                 echo '<td style="padding:10px;border-bottom:1px solid #ddd;">' . esc_html(implode(', ', $usuario->roles)) . '</td>';
-                
-                // Botões de Ação
+
+                // Botões de Ação Alinhados
                 echo '<td style="padding:10px;border-bottom:1px solid #ddd;text-align:center;">';
-                
+                echo '<div style="display:inline-flex;align-items:center;justify-content:center;gap:8px;">';
+
                 // Botão Editar (Abre a Modal via JS)
-                echo '<button type="button" onclick="abrirModalEdicao(' . esc_attr($usuario->ID) . ', \'' . esc_js(esc_attr($usuario->user_email)) . '\', \'' . esc_js(esc_attr($first_name)) . '\', \'' . esc_js(esc_attr($last_name)) . '\')" style="background:#f59e0b;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;margin-right:6px;">Editar</button>';
+                echo '<button type="button" onclick="abrirModalEdicao(' . esc_attr($usuario->ID) . ', \'' . esc_js(esc_attr($usuario->user_email)) . '\', \'' . esc_js(esc_attr($first_name)) . '\', \'' . esc_js(esc_attr($last_name)) . '\')" style="background:#f59e0b;color:#fff;border:none;width:36px;height:36px;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin:0;padding:0;"><i class="fa-solid fa-pen-to-square"></i></button>';
 
                 // Form/Botão Deletar
-                echo '<form method="post" style="display:inline;" onsubmit="return confirm(\'Deseja mesmo excluir o usuário ' . esc_attr($usuario->user_login) . '?\');">';
+                echo '<form method="post" style="display:inline-flex;margin:0;" onsubmit="return confirm(\'Deseja mesmo excluir o usuário ' . esc_attr($usuario->user_login) . '?\');">';
                 echo '<input type="hidden" name="acao_painel" value="deletar_usuario">';
                 echo '<input type="hidden" name="user_id" value="' . esc_attr($usuario->ID) . '">';
                 wp_nonce_field('deletar_usuario_acao');
-                echo '<button type="submit" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;">Excluir</button>';
+                echo '<button type="submit" style="background:#ef4444;color:#fff;border:none;width:36px;height:36px;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin:0;padding:0;"><i class="fa-solid fa-trash-can"></i></button>';
                 echo '</form>';
 
+                echo '</div>';
                 echo '</td>';
                 echo '</tr>';
             }
@@ -324,43 +335,54 @@ class DashboardController
         <!-- =========================================================================
              4. MODAL DE EDIÇÃO (Estrutura HTML/CSS + Script JavaScript)
              ========================================================================= -->
-        <div id="modal-editar-usuario" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:99999;">
-            <div style="background:#fff;padding:24px;border-radius:12px;width:100%;max-width:500px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">
+        <div id="modal-editar-usuario"
+            style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:99999;">
+            <div
+                style="background:#fff;padding:24px;border-radius:12px;width:100%;max-width:500px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">
                 <h3 style="margin-top:0;margin-bottom:16px;">Editar Usuário</h3>
-                
+
                 <form method="post">
                     <input type="hidden" name="acao_painel" value="editar_usuario">
                     <input type="hidden" name="user_id" id="edit_user_id">
                     <?php wp_nonce_field('editar_usuario_acao'); ?>
-                    
+
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-                        <label><strong>Nome</strong><br><input type="text" name="first_name" id="edit_first_name" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
-                        <label><strong>Sobrenome</strong><br><input type="text" name="last_name" id="edit_last_name" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
+                        <label><strong>Nome</strong><br><input type="text" name="first_name" id="edit_first_name"
+                                style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
+                        <label><strong>Sobrenome</strong><br><input type="text" name="last_name" id="edit_last_name"
+                                style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
                     </div>
-                    
-                    <label style="display:block;margin-bottom:12px;"><strong>E-mail</strong><br><input type="email" name="email" id="edit_email" required style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
-                    <label style="display:block;margin-bottom:16px;"><strong>Nova Senha</strong><br><input type="password" name="password" placeholder="Deixe em branco para manter a atual" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
-                    
+
+                    <label style="display:block;margin-bottom:12px;"><strong>E-mail</strong><br><input type="email" name="email"
+                            id="edit_email" required
+                            style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
+                    <label style="display:block;margin-bottom:16px;"><strong>Nova Senha</strong><br><input type="password"
+                            name="password" placeholder="Deixe em branco para manter a atual"
+                            style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"></label>
+
                     <div style="text-align:right;display:flex;gap:8px;justify-content:flex-end;">
-                        <button type="button" onclick="fecharModalEdicao()" style="background:#6b7280;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;">Cancelar</button>
-                        <button type="submit" style="background:#2563eb;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;">Salvar Alterações</button>
+                        <button type="button" onclick="fecharModalEdicao()"
+                            style="background:#6b7280;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;">Cancelar</button>
+                        <button type="submit"
+                            style="background:#2563eb;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;">Salvar
+                            Alterações</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <script>
-        function abrirModalEdicao(id, email, firstName, lastName) {
-            document.getElementById('edit_user_id').value = id;
-            document.getElementById('edit_email').value = email;
-            document.getElementById('edit_first_name').value = firstName;
-            document.getElementById('edit_last_name').value = lastName;
-            document.getElementById('modal-editar-usuario').style.display = 'flex';
-        }
+            function abrirModalEdicao(id, email, firstName, lastName) {
+                document.getElementById('edit_user_id').value = id;
+                document.getElementById('edit_email').value = email;
+                document.getElementById('edit_first_name').value = firstName;
+                document.getElementById('edit_last_name').value = lastName;
+                document.getElementById('modal-editar-usuario').style.display = 'flex';
+            }
 
-        function fecharModalEdicao() {
-            document.getElementById('modal-editar-usuario').style.display = 'none';
-        }
+            function fecharModalEdicao() {
+                document.getElementById('modal-editar-usuario').style.display = 'none';
+            }
         </script>
         <?php
     }
@@ -389,7 +411,8 @@ class DashboardController
                 'textarea_rows' => 15,
             ]); ?>
             <br>
-            <button type="submit" style="background:#27ae60; color:white; border:none; padding:10px 25px; border-radius:4px; cursor:pointer;">
+            <button type="submit"
+                style="background:#27ae60; color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer;">
                 Salvar Alterações
             </button>
         </form>

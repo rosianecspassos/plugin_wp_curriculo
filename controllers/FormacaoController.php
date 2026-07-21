@@ -4,22 +4,26 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class FormacaoController {
+class FormacaoController
+{
     private $model;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->model = new FormacaoModel();
         add_action('init', [$this, 'init_hooks']);
     }
 
-    public function init_hooks() {
+    public function init_hooks()
+    {
         $this->process_post_requests();
         add_shortcode('sistema_formacoes', [$this, 'render_panel']);
         add_shortcode('curriculo_formacoes', [$this, 'render_formacoes_curriculo']);
-      
+
     }
 
-    public function process_post_requests() {
+    public function process_post_requests()
+    {
         if (!is_user_logged_in()) {
             return;
         }
@@ -62,17 +66,20 @@ class FormacaoController {
         }
     }
 
-    private function redirect_success() {
+    private function redirect_success()
+    {
         $redirect_url = add_query_arg('formacao_success', '1', wp_get_referer());
         wp_safe_redirect($redirect_url);
         exit;
     }
 
-    private function get_formacoes() {
+    private function get_formacoes()
+    {
         return $this->model->buscar_por_usuario(get_current_user_id());
     }
 
-    public function render_panel() {
+    public function render_panel()
+    {
         if (!is_user_logged_in()) {
             return '<p>Por favor, faça <a href="' . esc_url(home_url('/login')) . '">login</a>.</p>';
         }
@@ -96,7 +103,8 @@ class FormacaoController {
         return ob_get_clean();
     }
 
-    public function render_formacoes_curriculo() {
+    public function render_formacoes_curriculo()
+    {
         $formacoes = $this->model->buscar_todos();
 
         ob_start();

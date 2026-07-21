@@ -10,7 +10,8 @@ add_action('wp_enqueue_scripts', 'gerenciador_saas_enqueue_assets');
 add_action('admin_enqueue_scripts', 'gerenciador_saas_enqueue_assets');
 add_shortcode('login_usuario', 'render_login');
 
-function gerenciador_saas_enqueue_assets() {
+function gerenciador_saas_enqueue_assets()
+{
     wp_enqueue_style(
         'font-awesome',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css',
@@ -26,7 +27,8 @@ function gerenciador_saas_enqueue_assets() {
     );
 }
 
-function gerenciador_saas_render_icon($icon = '') {
+function gerenciador_saas_render_icon($icon = '')
+{
     if (empty($icon)) {
         return '';
     }
@@ -40,7 +42,8 @@ function gerenciador_saas_render_icon($icon = '') {
     return esc_html($icon);
 }
 
-function processar_login_usuario() {
+function processar_login_usuario()
+{
     // Só age se o formulário foi enviado
     if (!isset($_POST['login_usuario'])) {
         return;
@@ -51,9 +54,9 @@ function processar_login_usuario() {
     $password = isset($_POST['password']) ? $_POST['password'] : '';
 
     $creds = [
-        'user_login'    => $username,
+        'user_login' => $username,
         'user_password' => $password,
-        'remember'      => true
+        'remember' => true
     ];
 
     $user = wp_signon($creds, false);
@@ -65,12 +68,14 @@ function processar_login_usuario() {
         }
     } else {
         // Se houver erro, podemos passar por URL ou usar uma Global para exibir no shortcode
-        add_filter('login_errors_custom', function() { return "Login ou senha inválidos."; });
+        add_filter('login_errors_custom', function () {
+            return "Login ou senha inválidos."; });
     }
 }
 
 // 2. Shortcode apenas exibe o formulário
-function render_login() {
+function render_login()
+{
     // Se já estiver logado, redireciona via JavaScript (fallback seguro para dentro de shortcode)
     if (is_user_logged_in()) {
         echo '<script>window.location.href="' . home_url('/sistema-painel') . '";</script>';
@@ -92,10 +97,12 @@ function render_login() {
 
         <form method="post" class="saas-login-form">
             <label for="saas-username">Usuário</label>
-            <input id="saas-username" type="text" name="username" placeholder="Digite seu usuário" autocomplete="username" required>
+            <input id="saas-username" type="text" name="username" placeholder="Digite seu usuário" autocomplete="username"
+                required>
 
             <label for="saas-password">Senha</label>
-            <input id="saas-password" type="password" name="password" placeholder="Digite sua senha" autocomplete="current-password" required>
+            <input id="saas-password" type="password" name="password" placeholder="Digite sua senha"
+                autocomplete="current-password" required>
 
             <button type="submit" name="login_usuario">Entrar</button>
         </form>
