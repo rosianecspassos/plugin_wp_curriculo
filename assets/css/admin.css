@@ -19,7 +19,7 @@
     background: #fff;
     border: 1px solid #dcdcdc;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 6px #dcdcdc;
 }
 
 .saas-card h2 {
@@ -113,13 +113,13 @@
     border-radius: 50%;
     background: linear-gradient(135deg, #062a79, #3b82f6);
     font-size: 1.5rem;
-    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 10px 25px rgba(187, 188, 194, 0.2);
 }
 
 .saas-login-card h2 {
     margin: 0 0 0.5rem;
     font-size: 1.5rem;
-    color: #0f172a;
+    color: #efeff0;
 }
 
 .saas-login-subtitle {
@@ -207,13 +207,13 @@
     border: 1px solid #e5e7eb;
     border-radius: 14px;
     padding: 24px;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+    box-shadow: 0 6px 18px hsl(0, 8%, 83%);;
 }
 
 .saas-admin-card h3 {
     margin-top: 0;
     margin-bottom: 12px;
-    color: #111827;
+    color: #757a83;
     font-size: 1.1rem;
 }
 
@@ -227,7 +227,7 @@
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) auto;
     gap: 12px;
     align-items: start;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    box-shadow: 0 2px 8px #8e95a1;
 }
 
 .saas-admin-item-form label {
@@ -235,19 +235,7 @@
     width: 100%;
 }
 
-.saas-admin-item-form .saas-icon-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    margin-top: 0.5rem;
-}
-
-.saas-admin-item-form .saas-icon-option {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 46px;
-}
-
+/* Layout da grade de ícones */
 .saas-icon-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -255,47 +243,73 @@
     margin-top: 0.5rem;
 }
 
+/* Força o estilo da opção (fundo claro, texto e ícone legíveis) */
 .saas-icon-option {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.7rem 0.8rem;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    background: #0c0c0c;
-    cursor: pointer;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    min-height: 44px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0.5rem !important;
+    padding: 0.7rem 0.8rem !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 10px !important;
+    background-color: #f8fafc !important; /* Fundo claro por padrão */
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    min-height: 44px !important;
+    box-sizing: border-box !important;
 }
 
+.saas-admin-item-form .saas-icon-option {
+    flex-direction: row !important; /* Garante alinhamento em linha */
+}
+
+/* Hover suave */
 .saas-icon-option:hover {
-    border-color: #000000; /* Borda preta no hover */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra mais neutra */
+    border-color: #000000 !important;
+    background-color: #f1f5f9 !important;
 }
 
+/* Esconde o radio button nativo */
+.saas-icon-option input[type="radio"],
 .saas-icon-option input {
-    display: none;
+    display: none !important;
 }
 
+/* ÍCONES: força a cor preta em FontAwesome, Dashicons e SVGs */
+.saas-icon-option i,
+.saas-icon-option svg {
+    color: #000000 !important;
+    fill: #000000 !important;
+    stroke: #000000 !important;
+    font-size: 1rem !important;
+    width: 1rem !important;
+    height: 1rem !important;
+    min-width: 1rem !important;
+    display: inline-block !important;
+    background: transparent !important; /* Remove qualquer fundo escuro herdado */
+}
 
-/* Garante que caminhos internos de SVGs do tema também herdem o preto */
 .saas-icon-option svg path {
     fill: inherit !important;
     stroke: inherit !important;
 }
 
-/* Texto em preto */
+/* TEXTO: força cor preta e garante legibilidade */
 .saas-icon-option span {
-    color: #000000;
-    font-size: 0.9rem;
+    color: #000000 !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    background: transparent !important;
 }
 
-/* Quando o input estiver selecionado */
-.saas-icon-option:has(input:checked) {
-    border-color: #000000; /* Borda preta absoluta */
-    background: #f1f1f1; /* Fundo cinza bem claro para destacar de forma neutra */
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2); /* Sombra de foco preta suave */
+/* ITEM SELECIONADO: destaca com borda preta marcante e fundo claro diferenciado */
+.saas-icon-option:has(input:checked),
+.saas-icon-option.active {
+    border: 2px solid #000000 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
 }
+
 
 @media (max-width: 900px) {
     .saas-admin-item-form {
@@ -316,4 +330,5 @@
     .saas-admin-card {
         padding: 16px;
     }
+    
 }
