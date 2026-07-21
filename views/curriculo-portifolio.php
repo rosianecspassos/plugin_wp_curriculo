@@ -10,13 +10,26 @@ if (!defined('ABSPATH')) {
     <?php else: ?>
         <style>
             .gs-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
-            .gs-card { background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;min-height:250px; }
-            .gs-thumb { width:100%;height:140px;overflow:hidden;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center; }
+            .gs-card { background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;min-height:280px;box-sizing:border-box;position:relative; }
+            
+            /* Garante que a imagem seja um bloco isolado e sem filhos flutuando sobre ela */
+            .gs-thumb { width:100%;height:140px;overflow:hidden;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1; }
             .gs-thumb img { width:100%;height:100%;object-fit:cover;display:block; }
+            
+            .gs-content { display:flex;flex-direction:column;gap:8px;flex:1; }
             .gs-title { font-weight:700;font-size:1rem;color:#111827; }
-            .gs-desc { margin:0;color:#4b5563;line-height:1.5;flex:1; }
-            .gs-actions { display:flex;gap:10px;align-items:center; }
-            .gs-action-btn { width:36px;height:36px;border-radius:8px;background:#f9fafb;border:1px solid #e6e7eb;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:#374151 }
+            .gs-desc { margin:0;color:#4b5563;line-height:1.5;font-size:0.9rem; }
+            
+            /* Container das ações */
+            .gs-actions { display:flex;gap:10px;align-items:center;margin-top:auto;padding-top:8px; }
+            
+            /* Força o botão a se comportar como um flex container centralizado */
+            .gs-action-btn { width:36px;height:36px;border-radius:8px;background:#f9fafb;border:1px solid #e6e7eb;display:inline-flex !important;align-items:center !important;justify-content:center !important;text-decoration:none;transition:background 0.2s;position:relative; }
+            .gs-action-btn:hover { background:#f3f4f6; }
+       
+            /* Neutraliza qualquer CSS global do tema que force os SVGs a saírem do lugar */
+            .gs-action-btn svg { position:static !important; display:block !important; margin:0 auto !important; transform:none !important; width:18px !important; height:18px !important; max-width:18px !important; max-height:18px !important;}
+            
             @media (max-width:1000px){ .gs-grid{grid-template-columns:repeat(2,1fr);} }
             @media (max-width:600px){ .gs-grid{grid-template-columns:repeat(1,1fr);} }
         </style>
@@ -42,33 +55,26 @@ if (!defined('ABSPATH')) {
                         <?php endif; ?>
                     </div>
 
-                    <div>
+                    <div class="gs-content">
                         <div id="proj-<?php echo esc_attr(md5($titulo)); ?>" class="gs-title"><?php echo esc_html($titulo); ?></div>
                         <p class="gs-desc"><?php echo esc_html($descricao); ?></p>
-                    </div>
+                        
+                        <div class="gs-actions">
+                            <?php if (!empty($link_projeto)): ?>
+                                <a class="gs-action-btn"style="text-decoration:none;" href="<?php echo esc_url($link_projeto); ?>" target="_blank" rel="noopener noreferrer nofollow" title="Abrir projeto">
+                                  <i class="fa-solid fas fa-eye " style="color:#000;"></i>
+                                </a>
+                            <?php endif; ?>
 
-                    <div class="gs-actions">
-                        <?php if (!empty($link_projeto)): ?>
-                            <a class="gs-action-btn" href="<?php echo esc_url($link_projeto); ?>" target="_blank" rel="noopener noreferrer nofollow" title="Abrir projeto">
-                                <!-- external link SVG -->
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3H21V10" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 14L21 3" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 21H3V3H12" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </a>
-                        <?php endif; ?>
-
-                        <?php if (!empty($link_github)): ?>
-                            <a class="gs-action-btn" href="<?php echo esc_url($link_github); ?>" target="_blank" rel="noopener noreferrer nofollow" title="Ver no GitHub">
-                                <!-- github SVG -->
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.66-.22.66-.49 0-.24-.01-.87-.01-1.71-2.78.61-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.64-1.33-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.10-.25-.45-1.28.10-2.66 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.80c.85.004 1.71.115 2.51.338 1.90-1.29 2.74-1.02 2.74-1.02.55 1.38.20 2.41.10 2.66.64.70 1.03 1.60 1.03 2.69 0 3.85-2.34 4.70-4.57 4.95.36.31.68.92.68 1.85 0 1.33-.01 2.40-.01 2.72 0 .27.16.59.67.49A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z" fill="#374151"/></svg>
-                            </a>
-                        <?php endif; ?>
+                            <?php if (!empty($link_github)): ?>
+                                <a class="gs-action-btn" style="text-decoration:none;" href="<?php echo esc_url($link_github); ?>" target="_blank" rel="noopener noreferrer nofollow" title="Ver no GitHub">
+                                <i class="fa-solid fa-brands fa-github" style="color:#000;"></i>
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </article>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </div>
-
-
-
-  
-

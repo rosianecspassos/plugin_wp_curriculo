@@ -21,9 +21,9 @@ if (!defined('ABSPATH')) {
                     <strong>Ícone</strong><br>
                     <div class="saas-icon-grid">
                         <label class="saas-icon-option">
-                            <input type="radio" name="icon" value="fa-solid fa-lightbulb">
-                            <?php echo gerenciador_saas_render_icon('fa-solid fa-lightbulb'); ?>
-                            <span>Luz</span>
+                            <input type="radio" name="icon" value="fas fa-car">
+                            <?php echo gerenciador_saas_render_icon('fas fa-car'); ?>
+                            <span>Carro</span>
                         </label>
                         <label class="saas-icon-option">
                             <input type="radio" name="icon" value="fa-solid fa-book">
@@ -41,14 +41,14 @@ if (!defined('ABSPATH')) {
                             <span>Meta</span>
                         </label>
                         <label class="saas-icon-option">
-                            <input type="radio" name="icon" value="fa-solid fa-chart-line">
-                            <?php echo gerenciador_saas_render_icon('fa-solid fa-chart-line'); ?>
+                            <input type="radio" name="icon" value="fas fa-bullseye">
+                            <?php echo gerenciador_saas_render_icon('fas fa-bullseye'); ?>
                             <span>Gráfico</span>
                         </label>
                         <label class="saas-icon-option">
                             <input type="radio" name="icon" value="fa-solid fa-laptop-code">
                             <?php echo gerenciador_saas_render_icon('fa-solid fa-laptop-code'); ?>
-                            <span>Tecnologia</span>
+                            <span>Dev</span>
                         </label>
                         <label class="saas-icon-option">
                             <input type="radio" name="icon" value="fa-solid fa-rocket">
@@ -71,14 +71,55 @@ if (!defined('ABSPATH')) {
                             <span>Sucesso</span>
                         </label>
                         <label class="saas-icon-option">
-                            <input type="radio" name="icon" value="fa-solid fa-brain">
-                            <?php echo gerenciador_saas_render_icon('fa-solid fa-brain'); ?>
-                            <span>Ideia</span>
+                            <input type="radio" name="icon" value="fas fa-database">
+                            <?php echo gerenciador_saas_render_icon('fas fa-database'); ?>
+                            <span>Banco de dados</span>
                         </label>
                         <label class="saas-icon-option">
                             <input type="radio" name="icon" value="fa-solid fa-star">
                             <?php echo gerenciador_saas_render_icon('fa-solid fa-star'); ?>
                             <span>Destaque</span>
+                        </label>
+                            <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fas fa-laptop">
+                            <?php echo gerenciador_saas_render_icon('fas fa-laptop'); ?>
+                            <span>Computador</span>
+                        </label>
+                              <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fas fa-code">
+                            <?php echo gerenciador_saas_render_icon('fas fa-code'); ?>
+                            <span>Programação código</span>
+                        </label>
+                                   <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fas fa-code-branch">
+                            <?php echo gerenciador_saas_render_icon('fas fa-code-branch'); ?>
+                            <span>Versionamento Branch</span>
+                        </label>
+                                       <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fas fa-terminal">
+                            <?php echo gerenciador_saas_render_icon('fas fa-terminal'); ?>
+                            <span>Terminal</span>
+                        </label>
+                                         <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fas fa-bug">
+                            <?php echo gerenciador_saas_render_icon('fas fa-bug'); ?>
+                            <span>Bug</span>
+                        </label>
+                                         <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fas fa-pallete">
+                            <?php echo gerenciador_saas_render_icon('fas fa-pallete'); ?>
+                            <span>Arte</span>
+                        </label>
+                                     <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fas fa-file-word">
+                            <?php echo gerenciador_saas_render_icon('fas fa-file-word'); ?>
+                            <span>Word</span>
+                        </label>
+
+                                       <label class="saas-icon-option">
+                            <input type="radio" name="icon" value="fas fa-file-image">
+                            <?php echo gerenciador_saas_render_icon('fas fa-file-image'); ?>
+                            <span>Arte</span>
                         </label>
                     </div>
                 </label>

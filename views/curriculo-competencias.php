@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
                 <?php if ($index < 4): ?>
                     <div style="background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:24px;min-height:200px;display:flex;flex-direction:column;gap:14px;">
                         <div style="display:flex;align-items:center;gap:12px;">
-                            <div style="width:44px;height:44px;border-radius:14px;background:#eff6ff;color:#1d4ed8;display:flex;align-items:center;justify-content:center;font-size:20px;">
+                            <div style="width:44px;height:44px;border-radius:25px;background:#11205A;color:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:20px;">
                                 <?php echo gerenciador_saas_render_icon($competencia['icon']); ?>
                             </div>
                             <div style="font-weight:700;font-size:1rem;color:#111827;"><?php echo esc_html($competencia['titulo']); ?></div>
@@ -31,7 +31,7 @@ if (!defined('ABSPATH')) {
                         <?php if ($index >= 4): ?>
                             <div style="background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:24px;min-height:200px;display:flex;flex-direction:column;gap:14px;">
                                 <div style="display:flex;align-items:center;gap:12px;">
-                                    <div style="width:44px;height:44px;border-radius:14px;background:#eff6ff;color:#1d4ed8;display:flex;align-items:center;justify-content:center;font-size:20px;">
+                                    <div style="width:44px;height:44px;border-radius:25px;background:#11205A;color:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:20px;">
                                         <?php echo gerenciador_saas_render_icon($competencia['icon']); ?>
                                     </div>
                                     <div style="font-weight:700;font-size:1rem;color:#111827;"><?php echo esc_html($competencia['titulo']); ?></div>
