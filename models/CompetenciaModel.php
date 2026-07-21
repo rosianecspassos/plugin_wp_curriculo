@@ -42,9 +42,9 @@ class CompetenciaModel
             $this->table,
             [
                 'usuario_id' => $usuario_id,
-                'icon'       => $icon,
-                'titulo'     => $titulo,
-                'descricao'  => $descricao,
+                'icon' => $icon,
+                'titulo' => $titulo,
+                'descricao' => $descricao,
             ],
             ['%d', '%s', '%s', '%s']
         );
@@ -55,8 +55,8 @@ class CompetenciaModel
         return $this->wpdb->update(
             $this->table,
             [
-                'icon'      => $icon,
-                'titulo'    => $titulo,
+                'icon' => $icon,
+                'titulo' => $titulo,
                 'descricao' => $descricao,
             ],
             ['id' => $id],

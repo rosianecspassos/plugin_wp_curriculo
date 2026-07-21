@@ -59,12 +59,12 @@ class FormacaoModel
         return $this->wpdb->insert(
             $this->table,
             [
-                'usuario_id'    => $usuario_id,
-                'curso'         => $curso,
-                'instituicao'   => $instituicao,
-                'grau'          => $grau,
-                'titulo'        => $titulo,
-                'status'        => $status,
+                'usuario_id' => $usuario_id,
+                'curso' => $curso,
+                'instituicao' => $instituicao,
+                'grau' => $grau,
+                'titulo' => $titulo,
+                'status' => $status,
                 'ano_conclusao' => $ano_conclusao,
             ],
             ['%d', '%s', '%s', '%s', '%s', '%s', '%d']
@@ -76,11 +76,11 @@ class FormacaoModel
         return $this->wpdb->update(
             $this->table,
             [
-                'curso'         => $curso,
-                'instituicao'   => $instituicao,
-                'grau'          => $grau,
-                'titulo'        => $titulo,
-                'status'        => $status,
+                'curso' => $curso,
+                'instituicao' => $instituicao,
+                'grau' => $grau,
+                'titulo' => $titulo,
+                'status' => $status,
                 'ano_conclusao' => $ano_conclusao,
             ],
             ['id' => $id],

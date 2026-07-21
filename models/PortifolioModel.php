@@ -43,12 +43,12 @@ class PortifolioModel
         return $this->wpdb->insert(
             $this->table,
             [
-                'usuario_id'   => $usuario_id,
-                'titulo'       => $titulo,
-                'descricao'    => $descricao,
-                'imagem'       => $imagem,
+                'usuario_id' => $usuario_id,
+                'titulo' => $titulo,
+                'descricao' => $descricao,
+                'imagem' => $imagem,
                 'link_projeto' => $link_projeto,
-                'link_github'  => $link_github,
+                'link_github' => $link_github,
             ],
             ['%d', '%s', '%s', '%s', '%s', '%s']
         );
@@ -59,11 +59,11 @@ class PortifolioModel
         return $this->wpdb->update(
             $this->table,
             [
-                'titulo'       => $titulo,
-                'descricao'    => $descricao,
-                'imagem'       => $imagem,
+                'titulo' => $titulo,
+                'descricao' => $descricao,
+                'imagem' => $imagem,
                 'link_projeto' => $link_projeto,
-                'link_github'  => $link_github,
+                'link_github' => $link_github,
             ],
             ['id' => $id],
             ['%s', '%s', '%s', '%s', '%s'],

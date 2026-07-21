@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class ExperienciaModel 
+class ExperienciaModel
 {
     private $table;
     private $wpdb;
@@ -43,7 +43,7 @@ class ExperienciaModel
             $this->table,
             [
                 'usuario_id' => $usuario_id,
-                'cargo'      => $cargo
+                'cargo' => $cargo
             ],
             [
                 '%d',

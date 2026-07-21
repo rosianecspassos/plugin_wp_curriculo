@@ -44,8 +44,8 @@ class IdiomaModel
             $this->table,
             [
                 'usuario_id' => $usuario_id,
-                'nome'       => $nome,
-                'nivel'      => $nivel
+                'nome' => $nome,
+                'nivel' => $nivel
             ],
             [
                 '%d',
@@ -60,7 +60,7 @@ class IdiomaModel
         return $this->wpdb->update(
             $this->table,
             [
-                'nome'  => $nome,
+                'nome' => $nome,
                 'nivel' => $nivel
             ],
             [

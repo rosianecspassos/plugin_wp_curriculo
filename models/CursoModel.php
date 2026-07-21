@@ -41,10 +41,10 @@ class CursoModel
         return $this->wpdb->insert(
             $this->table,
             [
-                'usuario_id'   => $usuario_id,
-                'icon'         => $icon,
-                'curso'        => $curso,
-                'instituicao'  => $instituicao,
+                'usuario_id' => $usuario_id,
+                'icon' => $icon,
+                'curso' => $curso,
+                'instituicao' => $instituicao,
             ],
             ['%d', '%s', '%s', '%s']
         );
@@ -55,9 +55,9 @@ class CursoModel
         return $this->wpdb->update(
             $this->table,
             [
-                'icon'         => $icon,
-                'curso'        => $curso,
-                'instituicao'  => $instituicao,
+                'icon' => $icon,
+                'curso' => $curso,
+                'instituicao' => $instituicao,
             ],
             ['id' => $id],
             ['%s', '%s', '%s'],
